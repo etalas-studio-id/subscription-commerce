@@ -14,8 +14,12 @@ This document serves as the AI skill configuration for handling the Checkout Flo
 
 ## 2. Core Files & Directories
 - **Checkout Frontend**: `src/app/checkout/page.tsx`
-  - Handles collecting customer details, address, order type (one-time vs. subscription), and payment method.
-  - IMPORTANT: After successfully calling the backend checkout API, always use `window.location.href = data.url` to redirect the user to external payment pages (Xendit). DO NOT use `router.push()` for external domains.
+  - The main container for the checkout layout.
+  - Subcomponents located in `src/components/checkout/`: `CustomerForm.tsx`, `DeliveryAddress.tsx`, and `OrderSummary.tsx`.
+  - IMPORTANT: After successfully calling the backend checkout API, always use `window.location.href` to redirect the user to external payment pages (Xendit). 
+    - For one-time orders, redirect to `data.paymentUrl`.
+    - For subscriptions, redirect to `data.redirectUrl`.
+  - DO NOT use `router.push()` for external domains.
 
 - **Checkout API Routes**:
   - `src/app/api/checkout/one-time/route.ts`: Processes single purchases and creates a Xendit Invoice.
@@ -46,11 +50,11 @@ Before creating a recurring subscription, a Xendit Customer must be created via 
 
 ### One-Time Invoices
 Endpoint: `POST /v2/invoices`
-Returns a `paymentUrl` that the frontend redirects to.
+Backend maps this and returns a `paymentUrl` that the frontend redirects to.
 
 ### Subscription Plans
 Endpoint: `POST /recurring/plans`
-Returns an `actionUrl` (look for `AUTH` action) where the customer links their payment method.
+Xendit returns an `actionUrl` (look for `AUTH` action) where the customer links their payment method. The backend maps this and returns it to the frontend as `redirectUrl`.
 
 ## 5. Testing Payments
 - When testing checkout, ensure the `.env` has `USE_MOCK_XENDIT="false"` and contains a valid development `XENDIT_API_KEY`.

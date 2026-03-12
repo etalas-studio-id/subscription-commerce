@@ -58,7 +58,11 @@ src/
 │   ├── db.ts                         # Prisma client
 │   ├── xendit.ts                     # Xendit service layer
 │   └── mock-email.ts                 # Mock email service
-└── components/ui/                    # shadcn/ui components
+└── components/
+    ├── home/                         # Landing page sections
+    ├── checkout/                     # Checkout form components
+    ├── layout/                       # Global Headers & Footers
+    └── ui/                           # shadcn/ui primitives
 ```
 
 ## Environment Variables
@@ -136,3 +140,11 @@ Replace these for a production deployment:
 - Add proper authentication for admin pages
 - Add rate limiting and input sanitization
 - Hash any stored credentials
+
+## AI Assistance Setup
+
+This prototype includes pre-configured AI skills (instructions) to help standard AI coding assistants natively understand the project architecture and Xendit checkout implementation.
+
+The skill configurations are stored in two locations (they are symlinked):
+- **Gemini Agent**: `.gemini/skills/checkout/SKILL.md`
+- **Claude Code**: `.claude/commands/checkout/SKILL.md`
