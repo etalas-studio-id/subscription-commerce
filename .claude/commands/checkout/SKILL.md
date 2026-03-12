@@ -1,0 +1,1 @@
+../../../.gemini/skills/checkout/SKILL.md

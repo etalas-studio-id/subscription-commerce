@@ -1,36 +1,138 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Good Harvest — Subscription Commerce Prototype
 
-## Getting Started
+A mobile-first, premium DTC subscription commerce web app for fresh produce delivery. Built as a demoable prototype with real Xendit integration architecture.
 
-First, run the development server:
+## Quick Start
 
 ```bash
+# Install dependencies
+npm install
+
+# Set up environment
+cp .env.example .env
+
+# Initialize database
+npx prisma db push
+
+# Seed sample data
+npx tsx prisma/seed.ts
+
+# Start dev server
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Stack
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Next.js 15** (App Router, TypeScript)
+- **Tailwind CSS v4** + **shadcn/ui**
+- **Prisma** + **SQLite** (local prototype DB)
+- **Zod** for validation
+- **Xendit** for payment integration
 
-## Learn More
+## Project Structure
 
-To learn more about Next.js, take a look at the following resources:
+```
+src/
+├── app/
+│   ├── page.tsx                      # Landing page
+│   ├── products/page.tsx             # Product selection
+│   ├── checkout/page.tsx             # Checkout form
+│   ├── payment/
+│   │   ├── redirect/page.tsx         # Xendit redirect intermediate
+│   │   ├── success/page.tsx          # Payment success
+│   │   └── failed/page.tsx           # Payment failed
+│   ├── admin/
+│   │   ├── page.tsx                  # Dashboard
+│   │   ├── orders/page.tsx           # Order management
+│   │   ├── pricing/page.tsx          # Pricing CRUD
+│   │   ├── frequencies/page.tsx      # Frequency settings
+│   │   └── emails/page.tsx           # Email log viewer
+│   └── api/
+│       ├── checkout/one-time/        # One-time order API
+│       ├── checkout/subscription/    # Subscription API
+│       ├── webhooks/xendit/          # Xendit webhook handler
+│       └── ...                       # Other API routes
+├── lib/
+│   ├── db.ts                         # Prisma client
+│   ├── xendit.ts                     # Xendit service layer
+│   └── mock-email.ts                 # Mock email service
+└── components/ui/                    # shadcn/ui components
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| Variable | Description | Required |
+|----------|-------------|----------|
+| `DATABASE_URL` | SQLite path (default: `file:./dev.db`) | Yes |
+| `NEXT_PUBLIC_APP_URL` | App URL for redirects (default: `http://localhost:3000`) | Yes |
+| `USE_MOCK_XENDIT` | `true` for mock mode, `false` for real API | Yes |
+| `XENDIT_API_KEY` | Xendit API key (sandbox or production) | For real mode |
+| `XENDIT_WEBHOOK_TOKEN` | Webhook verification token | Optional |
 
-## Deploy on Vercel
+## What's Real vs Mocked
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### ✅ Real (fully implemented)
+- Complete customer checkout flow (landing → products → checkout → payment result)
+- Prisma data model with all relationships
+- API routes for all CRUD operations
+- Admin dashboard with KPIs
+- Order management with filters
+- Pricing and frequency management
+- Email notification logging
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+### 🔶 Mock Mode (USE_MOCK_XENDIT=true)
+- Xendit API calls return simulated responses
+- Payment redirect simulates the hosted payment page
+- Webhook events can be triggered manually
+- Email notifications log to console + database (no actual emails sent)
+
+### 🔄 Ready for Real Mode (USE_MOCK_XENDIT=false)
+When you set `USE_MOCK_XENDIT=false` and provide a real `XENDIT_API_KEY`:
+- One-time invoices are created via `/v2/invoices`
+- Subscription plans are created via `/recurring/plans`
+- Customer profiles are created via `/customers`
+- Webhook handler processes real Xendit events
+- Auth redirect URL comes from actual Xendit response
+
+## Xendit Integration Flow
+
+### One-Time Payment
+1. Customer submits checkout form
+2. Backend creates Xendit invoice via `POST /v2/invoices`
+3. Customer is redirected to Xendit payment page
+4. After payment, customer returns to success/failed page
+5. Xendit sends webhook to update payment status
+
+### Subscription Payment
+1. Customer submits checkout with subscription frequency
+2. Backend creates Xendit customer via `POST /customers`
+3. Backend creates recurring plan via `POST /recurring/plans`
+4. If status is `REQUIRES_ACTION`, customer is redirected to authorization URL
+5. After authorization, customer returns to success/failed page
+6. Xendit sends webhook events for plan activation and billing cycles
+
+## Database Commands
+
+```bash
+# Push schema changes
+npm run db:push
+
+# Seed data
+npm run db:seed
+
+# Full reset (delete DB + push + seed)
+npm run db:reset
+```
+
+## For Production
+
+Replace these for a production deployment:
+- SQLite → PostgreSQL (update `datasource` in `schema.prisma`)
+- Mock email → Real email provider (SendGrid, Resend, etc.)
+- Mock Xendit → Real Xendit sandbox/production keys
+- Add webhook signature verification
+- Add proper authentication for admin pages
+- Add rate limiting and input sanitization
+- Hash any stored credentials
