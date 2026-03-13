@@ -15,7 +15,7 @@ const dmSerif = DM_Serif_Display({
 });
 
 export const metadata: Metadata = {
-  title: "The Good Harvest — Fresh Produce Subscription",
+  title: "Panen Baik - Toko Langganan",
   description:
     "Premium fresh produce delivered to your door. Subscribe to weekly, monthly, or one-time deliveries of organic vegetables and fruits.",
 };

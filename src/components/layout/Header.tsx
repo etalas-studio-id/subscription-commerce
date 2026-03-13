@@ -29,7 +29,7 @@ export function Header({ variant = "marketing" }: HeaderProps) {
         <Link href="/" className="flex items-center gap-2">
           <Leaf className="h-6 w-6 text-[var(--primary)]" />
           <span className="font-semibold text-base text-[var(--foreground)]">
-            The Good Harvest
+            Panen Baik
           </span>
         </Link>
         <div className="flex items-center gap-3">

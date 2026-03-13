@@ -44,7 +44,7 @@ export async function sendOrderConfirmation(params: {
 }) {
   await sendEmail({
     recipient: params.email,
-    subject: `The Good Harvest — Order Confirmation #${params.orderId.slice(-6).toUpperCase()}`,
+    subject: `Panen Baik — Order Confirmation #${params.orderId.slice(-6).toUpperCase()}`,
     type: "ORDER_CONFIRMATION",
     body: {
       customerName: params.name,
@@ -67,7 +67,7 @@ export async function sendSubscriptionCreated(params: {
 }) {
   await sendEmail({
     recipient: params.email,
-    subject: `The Good Harvest — Subscription Activated`,
+    subject: `Panen Baik — Subscription Activated`,
     type: "SUBSCRIPTION_CREATED",
     body: {
       customerName: params.name,
@@ -75,7 +75,7 @@ export async function sendSubscriptionCreated(params: {
       product: params.productName,
       amount: params.amount,
       frequency: params.frequency,
-      message: `Welcome to The Good Harvest ${params.frequency.toLowerCase()} subscription! Your ${params.productName} will be delivered on a ${params.frequency.toLowerCase()} basis.`,
+      message: `Welcome to Panen Baik ${params.frequency.toLowerCase()} subscription! Your ${params.productName} will be delivered on a ${params.frequency.toLowerCase()} basis.`,
     },
   });
 }
@@ -88,7 +88,7 @@ export async function sendPaymentFailed(params: {
 }) {
   await sendEmail({
     recipient: params.email,
-    subject: `The Good Harvest — Payment Update Required`,
+    subject: `Panen Baik — Payment Update Required`,
     type: "PAYMENT_FAILED",
     body: {
       customerName: params.name,

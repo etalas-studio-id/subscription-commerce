@@ -1,4 +1,4 @@
-# The Good Harvest — Subscription Commerce Prototype
+# Panen Baik — Subscription Commerce Prototype
 
 A mobile-first, premium DTC subscription commerce web app for fresh produce delivery. Built as a demoable prototype with real Xendit integration architecture.
 

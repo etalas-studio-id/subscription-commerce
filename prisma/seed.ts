@@ -423,7 +423,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "sarah@example.com",
-        subject: "The Good Harvest — Order Confirmation #ORDER1",
+        subject: "Panen Baik — Order Confirmation #ORDER1",
         type: "ORDER_CONFIRMATION",
         payload: JSON.stringify({ orderId: "order_1", product: "Veggie Box Small", amount: 99000 }),
       },
@@ -431,7 +431,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "sarah@example.com",
-        subject: "The Good Harvest — Subscription Activated",
+        subject: "Panen Baik — Subscription Activated",
         type: "SUBSCRIPTION_CREATED",
         payload: JSON.stringify({ subscriptionId: "sub_1", product: "Veggie Box Medium", frequency: "WEEKLY" }),
       },
@@ -439,7 +439,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "budi@example.com",
-        subject: "The Good Harvest — Order Confirmation #ORDER3",
+        subject: "Panen Baik — Order Confirmation #ORDER3",
         type: "ORDER_CONFIRMATION",
         payload: JSON.stringify({ orderId: "order_3", product: "Veggie Box Family", amount: 299000 }),
       },
@@ -447,7 +447,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "rina@example.com",
-        subject: "The Good Harvest — Payment Update Required",
+        subject: "Panen Baik — Payment Update Required",
         type: "PAYMENT_FAILED",
         payload: JSON.stringify({ orderId: "order_5", amount: 179000, message: "Payment method declined" }),
       },
@@ -455,7 +455,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "rina@example.com",
-        subject: "The Good Harvest — Payment Reminder",
+        subject: "Panen Baik — Payment Reminder",
         type: "PAYMENT_REMINDER",
         payload: JSON.stringify({ orderId: "order_5", amount: 179000, retryCount: 1 }),
       },
@@ -463,7 +463,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "andi@example.com",
-        subject: "The Good Harvest — Subscription Activated",
+        subject: "Panen Baik — Subscription Activated",
         type: "SUBSCRIPTION_CREATED",
         payload: JSON.stringify({ subscriptionId: "sub_4", product: "Veggie Box Small", frequency: "WEEKLY" }),
       },

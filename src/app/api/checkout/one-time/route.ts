@@ -65,7 +65,7 @@ export async function POST(request: Request) {
       customerEmail: customer.email,
       customerName: customer.name,
       customerPhone: customer.phone,
-      description: `The Good Harvest - ${product.name}`,
+      description: `Panen Baik - ${product.name}`,
     });
 
     // Save payment record
