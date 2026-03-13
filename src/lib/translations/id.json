@@ -8,6 +8,76 @@
     "admin": "Admin",
     "orderNow": "Pesan Sekarang"
   },
+  "hero": {
+    "label": "Berlangganan Sayuran Segar dari Kebun",
+    "headline1": "Makan segar,",
+    "headline2": "hidup sehat.",
+    "body": "Sayuran organik pilihan dari kebun lokal, langsung ke pintu rumah Anda. Berlangganan sekali, nikmati sayuran segar sesuai jadwal Anda.",
+    "cta": "Mulai Pesan",
+    "learnMore": "Pelajari Lebih Lanjut"
+  },
+  "trust": {
+    "organic": "100% Organik",
+    "delivery": "Gratis Ongkir",
+    "schedule": "Jadwal Fleksibel",
+    "payment": "Pembayaran Aman"
+  },
+  "howItWorks": {
+    "label": "Mudah & praktis",
+    "heading": "Cara kerjanya",
+    "step1Title": "Pilih Paket Anda",
+    "step1Desc": "Pilih dari berbagai paket sayuran organik kami yang disesuaikan dengan kebutuhan rumah tangga Anda.",
+    "step2Title": "Atur Jadwal Pengiriman",
+    "step2Desc": "Pesan sekali atau berlangganan untuk pengiriman otomatis — mingguan, bulanan, atau sesuai keinginan Anda.",
+    "step3Title": "Nikmati Sayuran Segar",
+    "step3Desc": "Kami antar sayuran langsung dari kebun ke depan pintu Anda. Bisa dihentikan atau dijeda kapan saja."
+  },
+  "orderTypes": {
+    "label": "Pilihan yang fleksibel",
+    "heading": "Sekali beli atau berlangganan",
+    "oneTimeTitle": "Beli Sekali",
+    "oneTimeDesc": "Coba paket sayuran kami tanpa komitmen. Cocok untuk pelanggan baru.",
+    "oneTimeBenefit1": "Tanpa komitmen",
+    "oneTimeBenefit2": "Berbagai pilihan pembayaran",
+    "oneTimeBenefit3": "Pengiriman reguler",
+    "recommended": "Direkomendasikan",
+    "subscriptionTitle": "Berlangganan",
+    "subscriptionDesc": "Atur sekali, beres seterusnya. Sayuran segar dikirim otomatis sesuai jadwal pilihan Anda.",
+    "subscriptionBenefit1": "Pengiriman otomatis & terjadwal",
+    "subscriptionBenefit2": "Stok sayuran tidak pernah habis",
+    "subscriptionBenefit3": "Bisa dijeda atau dibatalkan kapan saja",
+    "subscriptionBenefit4": "Prioritas slot pengiriman"
+  },
+  "paymentTrust": {
+    "label": "Aman & terpercaya",
+    "heading": "Pembayaran yang bisa diandalkan",
+    "bankTransfer": "Transfer Bank",
+    "bankDesc": "BCA, BNI, Mandiri & lainnya",
+    "creditCard": "Kartu Kredit/Debit",
+    "creditDesc": "Visa, Mastercard, JCB",
+    "eWallet": "Dompet Digital",
+    "eWalletDesc": "OVO, GoPay, ShopeePay",
+    "directDebit": "Debit Langsung",
+    "directDebitDesc": "Tagihan otomatis",
+    "note": "Semua transaksi diproses dengan aman melalui Xendit, platform pembayaran terpercaya di Indonesia. Data Anda terenkripsi dan terlindungi."
+  },
+  "products": {
+    "pageTitle": "Pilih Produk",
+    "loading": "Memuat produk...",
+    "mostPopular": "Paling Laris",
+    "selectAlert": "Silakan pilih produk terlebih dahulu",
+    "selectAlertDesc": "Klik salah satu produk di atas untuk melanjutkan ke checkout",
+    "noProduct": "Belum ada produk dipilih",
+    "continueBtn": "Lanjut ke Checkout"
+  },
+  "home": {
+    "sectionLabel": "Paket sayuran kami",
+    "sectionHeading": "Pilih yang sesuai untuk Anda",
+    "browseAll": "Lihat Semua Produk",
+    "starter": "Pemula",
+    "mostPopularBanner": "Paling Laris",
+    "bestValue": "Paling Hemat"
+  },
   "checkout": {
     "yourDetails": "Data Diri Anda",
     "fullName": "Nama Lengkap",
@@ -18,16 +88,69 @@
     "city": "Kota",
     "postalCode": "Kode Pos",
     "deliveryNotes": "Catatan Pengiriman",
+    "deliveryNotesOptional": "(opsional)",
+    "deliveryNotesPlaceholder": "Taruh di depan pagar, dll.",
     "orderType": "Jenis Pemesanan",
     "oneTime": "Pemesanan Satu Kali",
+    "oneTimeDesc": "Pengiriman sekali, tanpa komitmen",
     "subscription": "Berlangganan & Hemat",
+    "subscriptionDesc": "Pengiriman otomatis & terjadwal",
+    "recommended": "Direkomendasikan",
     "frequency": "Frekuensi Pengiriman",
     "paymentMethod": "Metode Pembayaran",
+    "paymentNote": "Pilih metode pembayaran di halaman pembayaran aman Xendit. Tidak perlu memilih di sini.",
+    "securedBy": "Diamankan oleh Xendit • Enkripsi 256-bit",
     "placeOrder": "Pesan Sekarang",
-    "continuePayment": "Lanjut ke Otorisasi Pembayaran"
+    "continuePayment": "Lanjut ke Otorisasi Pembayaran",
+    "processing": "Memproses...",
+    "stepSelect": "1. Pilih",
+    "stepCheckout": "2. Checkout",
+    "stepPay": "3. Bayar",
+    "subscriptionLabel": "Langganan",
+    "oneTimeLabel": "Pembelian Sekali",
+    "validationDetails": "Lengkapi data diri Anda (nama, email, dan nomor HP yang valid)",
+    "validationAddress": "Lengkapi alamat pengiriman (jalan, kota, dan kode pos)"
   },
   "validation": {
     "invalidEmail": "Masukkan email yang valid",
     "invalidPhone": "Gunakan format Indonesia (08xx atau +62)"
+  },
+  "orderSummary": {
+    "title": "Ringkasan Pesanan",
+    "delivery": "Ongkos Kirim",
+    "free": "Gratis",
+    "frequency": "Frekuensi",
+    "total": "Total",
+    "billed": "Ditagih"
+  },
+  "paymentSuccess": {
+    "heading": "Pesanan Dikonfirmasi!",
+    "body": "Terima kasih atas pesanan Anda. Paket sayuran segar Anda sedang kami siapkan dan akan segera dikirim.",
+    "whatsNext": "Selanjutnya",
+    "step1Title": "Pesanan sedang diproses",
+    "step1Desc": "Paket sayuran Anda akan dikemas dengan produk tegar pilihan",
+    "step2Title": "Cek email Anda",
+    "step2Desc": "Konfirmasi pesanan beserta detailnya telah dikirim ke email Anda",
+    "step3Title": "Butuh bantuan?",
+    "step3Desc": "Hubungi kami di hello@panenbaik.id",
+    "backHome": "Kembali ke Beranda",
+    "adminDashboard": "Lihat Dashboard Admin"
+  },
+  "paymentFailed": {
+    "heading": "Pembayaran Gagal",
+    "body": "Pembayaran Anda tidak berhasil diproses. Tenang — tidak ada biaya yang dikenakan. Coba lagi atau hubungi kami untuk bantuan.",
+    "whatToDo": "Yang bisa Anda lakukan",
+    "step1Title": "Coba lagi",
+    "step1Desc": "Periksa detail pembayaran Anda dan coba metode pembayaran lain",
+    "step2Title": "Hubungi kami",
+    "step2Desc": "Kirim pesan ke hello@panenbaik.id untuk bantuan",
+    "tryAgain": "Coba Lagi",
+    "backHome": "Kembali ke Beranda"
+  },
+  "footer": {
+    "products": "Produk",
+    "checkout": "Checkout",
+    "admin": "Admin",
+    "copyright": "© 2024 Panen Baik. Prototipe."
   }
 }

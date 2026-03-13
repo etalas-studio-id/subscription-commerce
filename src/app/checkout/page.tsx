@@ -20,6 +20,7 @@ import { Header } from "@/components/layout/Header";
 import { CustomerDetails } from "@/components/checkout/CustomerForm";
 import { DeliveryAddress } from "@/components/checkout/DeliveryAddress";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
+import { useI18n } from "@/lib/i18n-context";
 
 interface Product {
   id: string;
@@ -40,22 +41,16 @@ function formatPrice(amount: number): string {
   return `Rp ${amount.toLocaleString("id-ID")}`;
 }
 
-const paymentMethods = {
-  oneTime: [
-    { id: "bank_transfer", label: "Bank Transfer", icon: Building2, desc: "BCA, BNI, Mandiri" },
-    { id: "credit_card", label: "Credit / Debit Card", icon: CreditCard, desc: "Visa, Mastercard" },
-    { id: "e_wallet", label: "E-Wallet", icon: Wallet, desc: "OVO, GoPay, ShopeePay" },
-  ],
-  subscription: [
-    { id: "credit_card", label: "Credit / Debit Card", icon: CreditCard, desc: "Required for auto-billing", recommended: true },
-    { id: "direct_debit", label: "Direct Debit", icon: Building2, desc: "Automatic bank debit" },
-    { id: "e_wallet", label: "E-Wallet", icon: Wallet, desc: "Selected e-wallets" },
-  ],
-};
+const acceptedPayments = [
+  { label: "Bank Transfer", icon: Building2, desc: "BCA, BNI, Mandiri" },
+  { label: "Credit / Debit Card", icon: CreditCard, desc: "Visa, Mastercard" },
+  { label: "E-Wallet", icon: Wallet, desc: "OVO, GoPay, ShopeePay" },
+];
 
 function CheckoutForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
+  const { t } = useI18n();
   const productId = searchParams.get("product");
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -66,7 +61,6 @@ function CheckoutForm() {
   // Form state
   const [orderType, setOrderType] = useState<"ONE_TIME" | "SUBSCRIPTION">("SUBSCRIPTION");
   const [frequency, setFrequency] = useState("WEEKLY");
-  const [paymentMethod, setPaymentMethod] = useState("credit_card");
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -95,8 +89,11 @@ function CheckoutForm() {
 
   const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
   const isPhoneValid = /^(\+62|62|0)[0-9]{9,12}$/.test(form.phone.replace(/[\s-]/g, ""));
-  const isFormValid =
-    form.name && isEmailValid && isPhoneValid && form.address && form.city && form.postalCode;
+
+  // Validation checks for each section
+  const customerDetailsComplete = form.name && form.email && form.phone && isEmailValid && isPhoneValid;
+  const deliveryDetailsComplete = form.address && form.city && form.postalCode;
+  const isFormValid = customerDetailsComplete && deliveryDetailsComplete;
 
   const handleSubmit = async () => {
     if (!product || !isFormValid) return;
@@ -115,7 +112,6 @@ function CheckoutForm() {
           productId: product.id,
           orderType,
           frequency: orderType === "SUBSCRIPTION" ? frequency : undefined,
-          paymentMethod,
           customer: form,
         }),
       });
@@ -140,7 +136,6 @@ function CheckoutForm() {
     }
   };
 
-  const currentMethods = orderType === "SUBSCRIPTION" ? paymentMethods.subscription : paymentMethods.oneTime;
   const price = product?.priceConfig?.basePrice || 0;
 
   if (loading) {
@@ -158,11 +153,11 @@ function CheckoutForm() {
       {/* Step indicator */}
       <div className="max-w-2xl mx-auto px-5 pt-5 pb-2">
         <div className="flex items-center gap-2 text-xs text-[var(--muted-foreground)]">
-          <span className="text-[var(--primary)] opacity-60">1. Select</span>
+          <span className="text-[var(--primary)] opacity-60">{t('checkout.stepSelect')}</span>
           <span className="text-[var(--border)]">→</span>
-          <span className="text-[var(--primary)] font-semibold">2. Checkout</span>
+          <span className="text-[var(--primary)] font-semibold">{t('checkout.stepCheckout')}</span>
           <span className="text-[var(--border)]">→</span>
-          <span>3. Pay</span>
+          <span>{t('checkout.stepPay')}</span>
         </div>
       </div>
 
@@ -184,16 +179,32 @@ function CheckoutForm() {
         </Card>
 
         {/* ─── Customer Details ──────────────────────────────────────────── */}
+        {!customerDetailsComplete && (
+          <div className="flex items-start gap-2 p-3 rounded-xl bg-amber-50 border border-amber-200">
+            <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+            <p className="text-xs text-amber-800">
+              {t('checkout.validationDetails')}
+            </p>
+          </div>
+        )}
         <CustomerDetails form={form} updateForm={updateForm} emailError={!!form.email && !isEmailValid} phoneError={!!form.phone && !isPhoneValid} />
 
         {/* ─── Delivery Details ──────────────────────────────────────────── */}
+        {!deliveryDetailsComplete && (
+          <div className="flex items-start gap-2 p-3 rounded-xl bg-amber-50 border border-amber-200">
+            <Info className="h-4 w-4 text-amber-600 shrink-0 mt-0.5" />
+            <p className="text-xs text-amber-800">
+              {t('checkout.validationAddress')}
+            </p>
+          </div>
+        )}
         <DeliveryAddress form={form} updateForm={updateForm} />
 
         {/* ─── Frequency Selector ────────────────────────────────────────── */}
         <div>
           <h2 className="font-semibold text-sm mb-3 flex items-center gap-2">
             <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-[10px] font-bold">3</span>
-            Order Type
+            {t('checkout.orderType')}
           </h2>
           <Card>
             <CardContent className="p-4">
@@ -212,9 +223,9 @@ function CheckoutForm() {
                 >
                   <RadioGroupItem value="ONE_TIME" className="mt-0.5" />
                   <div>
-                    <div className="font-medium text-sm">One-Time Order</div>
+                    <div className="font-medium text-sm">{t('checkout.oneTime')}</div>
                     <div className="text-xs text-[var(--muted-foreground)] mt-0.5">
-                      Single delivery, no commitment
+                      {t('checkout.oneTimeDesc')}
                     </div>
                   </div>
                 </label>
@@ -229,13 +240,13 @@ function CheckoutForm() {
                   <RadioGroupItem value="SUBSCRIPTION" className="mt-0.5" />
                   <div className="flex-1">
                     <div className="font-medium text-sm flex items-center gap-2">
-                      Subscribe & Save
+                      {t('checkout.subscription')}
                       <Badge className="bg-[var(--primary)] text-white text-[10px] px-1.5 py-0">
-                        Recommended
+                        {t('checkout.recommended')}
                       </Badge>
                     </div>
                     <div className="text-xs text-[var(--muted-foreground)] mt-0.5">
-                      Automatic recurring delivery
+                      {t('checkout.subscriptionDesc')}
                     </div>
                   </div>
                 </label>
@@ -245,7 +256,7 @@ function CheckoutForm() {
               {orderType === "SUBSCRIPTION" && (
                 <div className="mt-4 pt-4 border-t border-[var(--border)]">
                   <div className="text-xs font-medium mb-2 text-[var(--muted-foreground)]">
-                    Delivery Frequency
+                    {t('checkout.frequency')}
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     {frequencies.map((freq) => (
@@ -271,65 +282,6 @@ function CheckoutForm() {
           </Card>
         </div>
 
-        {/* ─── Payment Method ────────────────────────────────────────────── */}
-        <div>
-          <h2 className="font-semibold text-sm mb-3 flex items-center gap-2">
-            <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-[10px] font-bold">4</span>
-            Payment Method
-          </h2>
-          <Card>
-            <CardContent className="p-4">
-              <RadioGroup
-                value={paymentMethod}
-                onValueChange={setPaymentMethod}
-                className="space-y-2"
-              >
-                {currentMethods.map((method) => {
-                  const Icon = method.icon;
-                  return (
-                    <label
-                      key={method.id}
-                      className={`flex items-center gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                        paymentMethod === method.id
-                          ? "border-[var(--primary)] bg-[var(--color-emerald-50)]/50"
-                          : "border-[var(--border)] hover:border-[var(--color-stone-300)]"
-                      }`}
-                    >
-                      <RadioGroupItem value={method.id} />
-                      <div className="w-9 h-9 rounded-lg bg-[var(--color-stone-100)] flex items-center justify-center">
-                        <Icon className="h-4 w-4 text-[var(--color-stone-600)]" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="font-medium text-sm flex items-center gap-2">
-                          {method.label}
-                          {("recommended" in method && method.recommended === true) && (
-                            <Badge className="bg-[var(--color-emerald-100)] text-[var(--color-emerald-800)] text-[10px] px-1.5 py-0 font-normal">
-                              Recommended
-                            </Badge>
-                          )}
-                        </div>
-                        <div className="text-[10px] text-[var(--muted-foreground)]">
-                          {method.desc}
-                        </div>
-                      </div>
-                    </label>
-                  );
-                })}
-              </RadioGroup>
-
-              {/* Subscription payment note */}
-              {orderType === "SUBSCRIPTION" && (
-                <div className="mt-3 p-3 rounded-xl bg-[var(--color-emerald-50)] flex gap-2">
-                  <Info className="h-4 w-4 text-[var(--primary)] shrink-0 mt-0.5" />
-                  <p className="text-xs text-[var(--color-emerald-800)] leading-relaxed">
-                    To activate automatic recurring billing, you&apos;ll be redirected to a secure payment authorization page after checkout.
-                  </p>
-                </div>
-              )}
-            </CardContent>
-          </Card>
-        </div>
-
         {/* ─── Order Summary ─────────────────────────────────────────────── */}
         <OrderSummary
           product={product}
@@ -340,11 +292,42 @@ function CheckoutForm() {
           formatPrice={formatPrice}
         />
 
+        {/* ─── Payment Info ──────────────────────────────────────────────── */}
+        <div>
+          <h2 className="font-semibold text-sm mb-3 flex items-center gap-2">
+            <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-[10px] font-bold">4</span>
+            {t('checkout.paymentMethod')}
+          </h2>
+          <Card>
+            <CardContent className="p-4">
+              <div className="flex gap-3 mb-3">
+                {acceptedPayments.map(({ label, icon: Icon, desc }) => (
+                  <div key={label} className="flex-1 flex flex-col items-center gap-1.5 p-3 rounded-xl bg-[var(--color-stone-50)] border border-[var(--border)]">
+                    <div className="w-8 h-8 rounded-lg bg-white flex items-center justify-center shadow-sm">
+                      <Icon className="h-4 w-4 text-[var(--color-stone-600)]" />
+                    </div>
+                    <div className="text-center">
+                      <div className="text-[10px] font-medium leading-tight">{label}</div>
+                      <div className="text-[9px] text-[var(--muted-foreground)] leading-tight">{desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <div className="flex gap-2 p-3 rounded-xl bg-[var(--color-emerald-50)]">
+                <Info className="h-4 w-4 text-[var(--primary)] shrink-0 mt-0.5" />
+                <p className="text-xs text-[var(--color-emerald-800)] leading-relaxed">
+                  {t('checkout.paymentNote')}
+                </p>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
         {/* Security note */}
         <div className="flex items-center justify-center gap-2 py-2">
           <Shield className="h-3.5 w-3.5 text-[var(--muted-foreground)]" />
           <span className="text-[10px] text-[var(--muted-foreground)]">
-            Secured by Xendit • 256-bit encryption
+            {t('checkout.securedBy')}
           </span>
         </div>
       </div>
@@ -355,7 +338,7 @@ function CheckoutForm() {
           <div className="flex items-center justify-between mb-2">
             <div>
               <div className="text-xs text-[var(--muted-foreground)]">
-                {orderType === "SUBSCRIPTION" ? `${frequencies.find(f => f.frequency === frequency)?.label} Subscription` : "One-Time Order"}
+                {orderType === "SUBSCRIPTION" ? `${frequencies.find(f => f.frequency === frequency)?.label} ${t('checkout.subscriptionLabel')}` : t('checkout.oneTimeLabel')}
               </div>
               <div className="text-base font-bold">{formatPrice(price)}</div>
             </div>
@@ -369,12 +352,12 @@ function CheckoutForm() {
             {submitting ? (
               <>
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                Processing...
+                {t('checkout.processing')}
               </>
             ) : orderType === "SUBSCRIPTION" ? (
-              "Continue to Payment Authorization"
+              t('checkout.continuePayment')
             ) : (
-              "Place Order"
+              t('checkout.placeOrder')
             )}
           </Button>
         </div>

@@ -8,7 +8,7 @@ const XENDIT_CUSTOMER_ID_RE = /^(cust-)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { productId, frequency, paymentMethod, customer } = body;
+    const { productId, frequency, customer } = body;
 
     // Get product and price
     const product = await prisma.product.findUnique({
@@ -103,7 +103,7 @@ export async function POST(request: Request) {
         externalId: plan.referenceId,
         amount,
         status: plan.status === "REQUIRES_ACTION" ? "REQUIRES_ACTION" : "PENDING",
-        paymentMethod: paymentMethod || "credit_card",
+        paymentMethod: "credit_card",
         paymentUrl: plan.actionUrl,
       },
     });

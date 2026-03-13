@@ -1,20 +1,25 @@
+'use client';
+
 import { Truck, RefreshCw, Shield, Leaf, Check, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
+import { useI18n } from "@/lib/i18n-context";
 
 export function TrustBar() {
+  const { t } = useI18n();
+
   return (
     <section className="border-y border-[var(--border)] bg-white">
       <div className="max-w-6xl mx-auto px-5 py-5">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { icon: Leaf, text: "100% Organic" },
-            { icon: Truck, text: "Free Delivery" },
-            { icon: RefreshCw, text: "Flexible Schedule" },
-            { icon: Shield, text: "Secure Payment" },
-          ].map(({ icon: Icon, text }) => (
-            <div key={text} className="flex items-center gap-2.5 justify-center">
+            { icon: Leaf, key: "trust.organic" },
+            { icon: Truck, key: "trust.delivery" },
+            { icon: RefreshCw, key: "trust.schedule" },
+            { icon: Shield, key: "trust.payment" },
+          ].map(({ icon: Icon, key }) => (
+            <div key={key} className="flex items-center gap-2.5 justify-center">
               <Icon className="h-4 w-4 text-[var(--primary)] shrink-0" />
-              <span className="text-xs font-medium text-[var(--foreground)]">{text}</span>
+              <span className="text-xs font-medium text-[var(--foreground)]">{t(key)}</span>
             </div>
           ))}
         </div>
@@ -24,6 +29,8 @@ export function TrustBar() {
 }
 
 export function HowItWorks() {
+  const { t } = useI18n();
+
   return (
     <section
       id="how-it-works"
@@ -31,36 +38,36 @@ export function HowItWorks() {
     >
       <div className="max-w-6xl mx-auto px-5 py-14 md:py-20">
         <div className="text-center mb-10">
-          <div className="heading-label mb-2">Simple & convenient</div>
+          <div className="heading-label mb-2">{t('howItWorks.label')}</div>
           <h2 className="heading-display text-2xl md:text-3xl text-[var(--foreground)]">
-            How it works
+            {t('howItWorks.heading')}
           </h2>
         </div>
         <div className="grid md:grid-cols-3 gap-8">
           {[
             {
               step: "01",
-              title: "Choose Your Box",
-              desc: "Pick from our curated selection of organic harvest boxes sized for your household.",
+              titleKey: "howItWorks.step1Title",
+              descKey: "howItWorks.step1Desc",
             },
             {
               step: "02",
-              title: "Set Your Schedule",
-              desc: "Order once or subscribe for automatic deliveries — weekly, monthly, or your preference.",
+              titleKey: "howItWorks.step2Title",
+              descKey: "howItWorks.step2Desc",
             },
             {
               step: "03",
-              title: "Enjoy Fresh Produce",
-              desc: "We deliver farm-fresh vegetables to your door. Cancel or pause anytime.",
+              titleKey: "howItWorks.step3Title",
+              descKey: "howItWorks.step3Desc",
             },
           ].map((item) => (
             <div key={item.step} className="text-center md:text-left">
               <div className="text-3xl font-bold text-[var(--color-emerald-200)] mb-3">
                 {item.step}
               </div>
-              <h3 className="font-semibold text-base mb-2">{item.title}</h3>
+              <h3 className="font-semibold text-base mb-2">{t(item.titleKey)}</h3>
               <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
-                {item.desc}
+                {t(item.descKey)}
               </p>
             </div>
           ))}
@@ -71,59 +78,63 @@ export function HowItWorks() {
 }
 
 export function OrderTypes() {
+  const { t } = useI18n();
+
   return (
     <section className="max-w-6xl mx-auto px-5 py-14 md:py-20">
       <div className="text-center mb-10">
-        <div className="heading-label mb-2">Flexible options</div>
+        <div className="heading-label mb-2">{t('orderTypes.label')}</div>
         <h2 className="heading-display text-2xl md:text-3xl text-[var(--foreground)]">
-          One-time or subscription
+          {t('orderTypes.heading')}
         </h2>
       </div>
       <div className="grid md:grid-cols-2 gap-5">
-        <Card className="p-6 hover:shadow-md transition-shadow">
+        <Card className="pt-10 px-6 pb-6 hover:shadow-md transition-shadow">
           <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
             <div className="w-8 h-8 rounded-full bg-[var(--color-stone-100)] flex items-center justify-center">
               <Star className="h-4 w-4 text-[var(--color-stone-500)]" />
             </div>
-            One-Time Order
+            {t('orderTypes.oneTimeTitle')}
           </h3>
           <p className="text-sm text-[var(--muted-foreground)] mb-4 leading-relaxed">
-            Try our harvest box without commitment. Perfect for first-time customers.
-          </p>
-          <ul className="space-y-2">
-            {["No commitment required", "Multiple payment options", "Standard delivery"].map(
-              (item) => (
-                <li key={item} className="flex items-center gap-2 text-sm">
-                  <Check className="h-3.5 w-3.5 text-[var(--primary)]" />
-                  {item}
-                </li>
-              )
-            )}
-          </ul>
-        </Card>
-        <Card className="p-6 ring-2 ring-[var(--primary)] hover:shadow-md transition-shadow relative">
-          <div className="absolute -top-3 left-4 px-3 py-0.5 bg-[var(--primary)] text-white text-[10px] font-semibold tracking-wider uppercase rounded-full">
-            Recommended
-          </div>
-          <h3 className="font-semibold text-lg mb-3 flex items-center gap-2">
-            <div className="w-8 h-8 rounded-full bg-[var(--color-emerald-50)] flex items-center justify-center">
-              <RefreshCw className="h-4 w-4 text-[var(--primary)]" />
-            </div>
-            Subscription
-          </h3>
-          <p className="text-sm text-[var(--muted-foreground)] mb-4 leading-relaxed">
-            Set it and forget it. Fresh produce delivered automatically on your preferred schedule.
+            {t('orderTypes.oneTimeDesc')}
           </p>
           <ul className="space-y-2">
             {[
-              "Automatic recurring delivery",
-              "Never run out of fresh produce",
-              "Pause or cancel anytime",
-              "Priority delivery slot",
-            ].map((item) => (
-              <li key={item} className="flex items-center gap-2 text-sm">
+              "orderTypes.oneTimeBenefit1",
+              "orderTypes.oneTimeBenefit2",
+              "orderTypes.oneTimeBenefit3",
+            ].map((key) => (
+              <li key={key} className="flex items-center gap-2 text-sm">
                 <Check className="h-3.5 w-3.5 text-[var(--primary)]" />
-                {item}
+                {t(key)}
+              </li>
+            ))}
+          </ul>
+        </Card>
+        <Card className="pt-10 px-6 pb-6 ring-2 ring-[var(--primary)] hover:shadow-md transition-shadow relative overflow-hidden">
+          <div className="absolute top-2 left-4 px-2 py-0.5 bg-[var(--primary)] text-white text-[9px] font-semibold tracking-wider uppercase rounded-full whitespace-nowrap">
+            {t('orderTypes.recommended')}
+          </div>
+          <h3 className="font-semibold text-lg mb-3 flex items-center gap-2 break-words">
+            <div className="w-8 h-8 shrink-0 rounded-full bg-[var(--color-emerald-50)] flex items-center justify-center">
+              <RefreshCw className="h-4 w-4 text-[var(--primary)]" />
+            </div>
+            <span>{t('orderTypes.subscriptionTitle')}</span>
+          </h3>
+          <p className="text-sm text-[var(--muted-foreground)] mb-4 leading-relaxed">
+            {t('orderTypes.subscriptionDesc')}
+          </p>
+          <ul className="space-y-2">
+            {[
+              "orderTypes.subscriptionBenefit1",
+              "orderTypes.subscriptionBenefit2",
+              "orderTypes.subscriptionBenefit3",
+              "orderTypes.subscriptionBenefit4",
+            ].map((key) => (
+              <li key={key} className="flex items-center gap-2 text-sm">
+                <Check className="h-3.5 w-3.5 text-[var(--primary)]" />
+                {t(key)}
               </li>
             ))}
           </ul>
@@ -134,51 +145,52 @@ export function OrderTypes() {
 }
 
 export function PaymentTrust() {
+  const { t } = useI18n();
+
   return (
     <section className="bg-[var(--color-emerald-900)] text-white">
       <div className="max-w-6xl mx-auto px-5 py-14 md:py-20">
         <div className="text-center mb-10">
           <div className="text-[10px] font-semibold tracking-[0.15em] uppercase text-[var(--color-emerald-200)] mb-2">
-            Secure & trustworthy
+            {t('paymentTrust.label')}
           </div>
           <h2 className="heading-display text-2xl md:text-3xl text-white">
-            Payment you can trust
+            {t('paymentTrust.heading')}
           </h2>
         </div>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {[
             {
-              title: "Bank Transfer",
-              desc: "BCA, BNI, Mandiri & more",
+              titleKey: "paymentTrust.bankTransfer",
+              descKey: "paymentTrust.bankDesc",
             },
             {
-              title: "Credit Card",
-              desc: "Visa, Mastercard, JCB",
+              titleKey: "paymentTrust.creditCard",
+              descKey: "paymentTrust.creditDesc",
             },
             {
-              title: "E-Wallet",
-              desc: "OVO, GoPay, ShopeePay",
+              titleKey: "paymentTrust.eWallet",
+              descKey: "paymentTrust.eWalletDesc",
             },
             {
-              title: "Direct Debit",
-              desc: "Automatic billing",
+              titleKey: "paymentTrust.directDebit",
+              descKey: "paymentTrust.directDebitDesc",
             },
           ].map((method) => (
-            <div key={method.title} className="text-center">
+            <div key={method.titleKey} className="text-center">
               <div className="w-12 h-12 mx-auto rounded-xl bg-white/10 flex items-center justify-center mb-3">
                 <Shield className="h-5 w-5 text-[var(--color-emerald-200)]" />
               </div>
-              <div className="font-medium text-sm mb-0.5">{method.title}</div>
+              <div className="font-medium text-sm mb-0.5">{t(method.titleKey)}</div>
               <div className="text-xs text-[var(--color-emerald-200)] opacity-80">
-                {method.desc}
+                {t(method.descKey)}
               </div>
             </div>
           ))}
         </div>
         <div className="text-center mt-10">
           <p className="text-xs text-[var(--color-emerald-200)] opacity-70 max-w-md mx-auto">
-            All payments are processed securely through Xendit, Indonesia&apos;s leading payment
-            platform. Your data is encrypted and protected.
+            {t('paymentTrust.note')}
           </p>
         </div>
       </div>

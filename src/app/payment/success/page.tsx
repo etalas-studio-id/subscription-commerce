@@ -1,9 +1,13 @@
+'use client';
+
 import Link from "next/link";
 import { CheckCircle2, ArrowRight, Leaf, Package, RefreshCw, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
+import { useI18n } from "@/lib/i18n-context";
 
 export default function PaymentSuccessPage() {
+  const { t } = useI18n();
   return (
     <div className="min-h-screen bg-[var(--background)] flex items-center justify-center p-5">
       <div className="max-w-md w-full animate-fade-in-up">
@@ -14,26 +18,25 @@ export default function PaymentSuccessPage() {
               <CheckCircle2 className="h-10 w-10 text-[var(--primary)]" />
             </div>
           </div>
-          <h1 className="heading-display text-2xl mb-2">Order Confirmed!</h1>
+          <h1 className="heading-display text-2xl mb-2">{t('paymentSuccess.heading')}</h1>
           <p className="text-sm text-[var(--muted-foreground)] leading-relaxed">
-            Thank you for your order. Your fresh harvest is being prepared
-            and will be on its way soon.
+            {t('paymentSuccess.body')}
           </p>
         </div>
 
         {/* Order summary card */}
         <Card className="mb-4">
           <CardContent className="p-4 space-y-3">
-            <div className="heading-label mb-1">What&apos;s Next</div>
+            <div className="heading-label mb-1">{t('paymentSuccess.whatsNext')}</div>
             <div className="space-y-3">
               <div className="flex items-start gap-3">
                 <div className="w-8 h-8 rounded-lg bg-[var(--color-emerald-50)] flex items-center justify-center shrink-0">
                   <Package className="h-4 w-4 text-[var(--primary)]" />
                 </div>
                 <div>
-                  <div className="font-medium text-sm">We&apos;re preparing your order</div>
+                  <div className="font-medium text-sm">{t('paymentSuccess.step1Title')}</div>
                   <div className="text-xs text-[var(--muted-foreground)]">
-                    Your harvest box will be packed with the freshest produce
+                    {t('paymentSuccess.step1Desc')}
                   </div>
                 </div>
               </div>
@@ -42,9 +45,9 @@ export default function PaymentSuccessPage() {
                   <RefreshCw className="h-4 w-4 text-[var(--primary)]" />
                 </div>
                 <div>
-                  <div className="font-medium text-sm">Check your email</div>
+                  <div className="font-medium text-sm">{t('paymentSuccess.step2Title')}</div>
                   <div className="text-xs text-[var(--muted-foreground)]">
-                    A confirmation email with order details has been sent
+                    {t('paymentSuccess.step2Desc')}
                   </div>
                 </div>
               </div>
@@ -53,9 +56,9 @@ export default function PaymentSuccessPage() {
                   <Phone className="h-4 w-4 text-[var(--primary)]" />
                 </div>
                 <div>
-                  <div className="font-medium text-sm">Need help?</div>
+                  <div className="font-medium text-sm">{t('paymentSuccess.step3Title')}</div>
                   <div className="text-xs text-[var(--muted-foreground)]">
-                    Contact us at hello@thegoodharvest.id
+                    {t('paymentSuccess.step3Desc')}
                   </div>
                 </div>
               </div>
@@ -67,7 +70,7 @@ export default function PaymentSuccessPage() {
         <div className="space-y-3">
           <Link href="/">
             <Button className="w-full rounded-full h-12 text-sm font-medium" size="lg">
-              Back to Home
+              {t('paymentSuccess.backHome')}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </Link>
@@ -77,7 +80,7 @@ export default function PaymentSuccessPage() {
               className="w-full rounded-full h-12 text-sm font-medium"
               size="lg"
             >
-              View Admin Dashboard
+              {t('paymentSuccess.adminDashboard')}
             </Button>
           </Link>
         </div>

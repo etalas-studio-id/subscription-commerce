@@ -1,10 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShoppingCart, RefreshCw, DollarSign, AlertTriangle } from "lucide-react";
+import { ShoppingCart, RefreshCw, DollarSign, AlertTriangle, LogOut, Leaf } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 
 interface DashboardData {
   kpis: {
@@ -56,15 +58,43 @@ function statusColor(status: string): string {
 }
 
 export default function AdminDashboard() {
+  const router = useRouter();
   const [data, setData] = useState<DashboardData | null>(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const [username, setUsername] = useState('');
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Check authentication
+    const auth = localStorage.getItem("adminAuth");
+    const user = localStorage.getItem("adminUsername");
+
+    if (!auth || auth !== "true") {
+      router.push("/admin/login");
+      return;
+    }
+
+    setIsAuthenticated(true);
+    setUsername(user || "");
+
+    // Fetch dashboard data
     fetch("/api/dashboard")
       .then((r) => r.json())
-      .then(setData);
-  }, []);
+      .then(setData)
+      .finally(() => setLoading(false));
+  }, [router]);
 
-  if (!data) {
+  const handleLogout = () => {
+    localStorage.removeItem("adminAuth");
+    localStorage.removeItem("adminUsername");
+    router.push("/admin/login");
+  };
+
+  if (!isAuthenticated) {
+    return null;
+  }
+
+  if (loading || !data) {
     return (
       <div className="p-5 space-y-4">
         {[1, 2, 3, 4].map((i) => (
@@ -75,13 +105,39 @@ export default function AdminDashboard() {
   }
 
   return (
-    <div className="p-5 max-w-5xl mx-auto space-y-6">
-      <div>
-        <h1 className="heading-display text-2xl">Dashboard</h1>
-        <p className="text-xs text-[var(--muted-foreground)] mt-1">
-          Overview of your store performance
-        </p>
-      </div>
+    <div className="min-h-screen bg-[var(--background)]">
+      {/* Header */}
+      <header className="bg-white border-b border-[var(--border)]">
+        <div className="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <Leaf className="h-6 w-6 text-[var(--primary)]" />
+            <h1 className="text-xl font-bold text-[var(--foreground)]">Panen Baik Admin</h1>
+          </div>
+          <div className="flex items-center gap-4">
+            <div className="text-xs text-[var(--muted-foreground)]">
+              Logged in as <span className="font-medium text-[var(--foreground)]">{username}</span>
+            </div>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleLogout}
+              className="text-xs h-8"
+            >
+              <LogOut className="h-3.5 w-3.5 mr-1.5" />
+              Logout
+            </Button>
+          </div>
+        </div>
+      </header>
+
+      {/* Main content */}
+      <div className="p-5 max-w-5xl mx-auto space-y-6">
+        <div>
+          <h2 className="heading-display text-2xl">Dashboard</h2>
+          <p className="text-xs text-[var(--muted-foreground)] mt-1">
+            Overview of your store performance
+          </p>
+        </div>
 
       {/* KPIs */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-3">
@@ -236,6 +292,7 @@ export default function AdminDashboard() {
             </Link>
           );
         })}
+      </div>
       </div>
     </div>
   );

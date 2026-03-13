@@ -8,6 +8,76 @@
     "admin": "Admin",
     "orderNow": "Order Now"
   },
+  "hero": {
+    "label": "Subscribe to Fresh Produce from Local Farms",
+    "headline1": "Eat fresh,",
+    "headline2": "live well.",
+    "body": "Curated organic vegetables from local farms delivered to your doorstep. Subscribe once, enjoy fresh produce on your schedule.",
+    "cta": "Start Your Order",
+    "learnMore": "Learn More"
+  },
+  "trust": {
+    "organic": "100% Organic",
+    "delivery": "Free Delivery",
+    "schedule": "Flexible Schedule",
+    "payment": "Secure Payment"
+  },
+  "howItWorks": {
+    "label": "Simple & convenient",
+    "heading": "How it works",
+    "step1Title": "Choose Your Box",
+    "step1Desc": "Pick from our curated selection of organic harvest boxes sized for your household.",
+    "step2Title": "Set Your Schedule",
+    "step2Desc": "Order once or subscribe for automatic deliveries — weekly, monthly, or your preference.",
+    "step3Title": "Enjoy Fresh Produce",
+    "step3Desc": "We deliver farm-fresh vegetables to your door. Cancel or pause anytime."
+  },
+  "orderTypes": {
+    "label": "Flexible options",
+    "heading": "One-time or subscription",
+    "oneTimeTitle": "One-Time Order",
+    "oneTimeDesc": "Try our harvest box without commitment. Perfect for first-time customers.",
+    "oneTimeBenefit1": "No commitment required",
+    "oneTimeBenefit2": "Multiple payment options",
+    "oneTimeBenefit3": "Standard delivery",
+    "recommended": "Recommended",
+    "subscriptionTitle": "Subscription",
+    "subscriptionDesc": "Set it and forget it. Fresh produce delivered automatically on your preferred schedule.",
+    "subscriptionBenefit1": "Automatic recurring delivery",
+    "subscriptionBenefit2": "Never run out of fresh produce",
+    "subscriptionBenefit3": "Pause or cancel anytime",
+    "subscriptionBenefit4": "Priority delivery slot"
+  },
+  "paymentTrust": {
+    "label": "Secure & trustworthy",
+    "heading": "Payment you can trust",
+    "bankTransfer": "Bank Transfer",
+    "bankDesc": "BCA, BNI, Mandiri & more",
+    "creditCard": "Credit Card",
+    "creditDesc": "Visa, Mastercard, JCB",
+    "eWallet": "E-Wallet",
+    "eWalletDesc": "OVO, GoPay, ShopeePay",
+    "directDebit": "Direct Debit",
+    "directDebitDesc": "Automatic billing",
+    "note": "All payments are processed securely through Xendit, Indonesia's leading payment platform. Your data is encrypted and protected."
+  },
+  "products": {
+    "pageTitle": "Select a Product",
+    "loading": "Loading products...",
+    "mostPopular": "Most Popular",
+    "selectAlert": "Please select a product first",
+    "selectAlertDesc": "Click any product above to continue to checkout",
+    "noProduct": "No product selected",
+    "continueBtn": "Continue to Checkout"
+  },
+  "home": {
+    "sectionLabel": "Our harvest boxes",
+    "sectionHeading": "Choose your perfect box",
+    "browseAll": "Browse All Products",
+    "starter": "Starter",
+    "mostPopularBanner": "Most Popular",
+    "bestValue": "Best Value"
+  },
   "checkout": {
     "yourDetails": "Your Details",
     "fullName": "Full Name",
@@ -18,16 +88,69 @@
     "city": "City",
     "postalCode": "Postal Code",
     "deliveryNotes": "Delivery Notes",
+    "deliveryNotesOptional": "(optional)",
+    "deliveryNotesPlaceholder": "Leave at front gate, etc.",
     "orderType": "Order Type",
     "oneTime": "One-Time Order",
+    "oneTimeDesc": "Single delivery, no commitment",
     "subscription": "Subscribe & Save",
+    "subscriptionDesc": "Automatic recurring delivery",
+    "recommended": "Recommended",
     "frequency": "Delivery Frequency",
-    "paymentMethod": "Payment Method",
+    "paymentMethod": "Payment Methods",
+    "paymentNote": "You'll select your payment method on Xendit's secure payment page. No selection needed here.",
+    "securedBy": "Secured by Xendit • 256-bit encryption",
     "placeOrder": "Place Order",
-    "continuePayment": "Continue to Payment Authorization"
+    "continuePayment": "Continue to Payment Authorization",
+    "processing": "Processing...",
+    "stepSelect": "1. Select",
+    "stepCheckout": "2. Checkout",
+    "stepPay": "3. Pay",
+    "subscriptionLabel": "Subscription",
+    "oneTimeLabel": "One-Time Order",
+    "validationDetails": "Please complete all your details (name, valid email, and valid phone number)",
+    "validationAddress": "Please complete your delivery address (street, city, and postal code)"
   },
   "validation": {
     "invalidEmail": "Enter a valid email address",
     "invalidPhone": "Use Indonesian format (08xx or +62)"
+  },
+  "orderSummary": {
+    "title": "Order Summary",
+    "delivery": "Delivery",
+    "free": "Free",
+    "frequency": "Frequency",
+    "total": "Total",
+    "billed": "Billed"
+  },
+  "paymentSuccess": {
+    "heading": "Order Confirmed!",
+    "body": "Thank you for your order. Your fresh harvest is being prepared and will be on its way soon.",
+    "whatsNext": "What's Next",
+    "step1Title": "We're preparing your order",
+    "step1Desc": "Your harvest box will be packed with the freshest produce",
+    "step2Title": "Check your email",
+    "step2Desc": "A confirmation email with order details has been sent",
+    "step3Title": "Need help?",
+    "step3Desc": "Contact us at hello@panenbaik.id",
+    "backHome": "Back to Home",
+    "adminDashboard": "View Admin Dashboard"
+  },
+  "paymentFailed": {
+    "heading": "Payment Unsuccessful",
+    "body": "We weren't able to process your payment. Don't worry — no charges have been made. You can try again or contact us for help.",
+    "whatToDo": "What you can do",
+    "step1Title": "Try again",
+    "step1Desc": "Check your payment details and try a different payment method",
+    "step2Title": "Contact support",
+    "step2Desc": "Reach out to hello@panenbaik.id for assistance",
+    "tryAgain": "Try Again",
+    "backHome": "Back to Home"
+  },
+  "footer": {
+    "products": "Products",
+    "checkout": "Checkout",
+    "admin": "Admin",
+    "copyright": "© 2024 Panen Baik. Prototype."
   }
 }

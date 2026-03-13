@@ -1,6 +1,9 @@
+'use client';
+
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useI18n } from "@/lib/i18n-context";
 
 interface CustomerFormProps {
   form: {
@@ -14,21 +17,23 @@ interface CustomerFormProps {
 }
 
 export function CustomerDetails({ form, updateForm, emailError, phoneError }: CustomerFormProps) {
+  const { t } = useI18n();
+
   return (
     <div>
       <h2 className="font-semibold text-sm mb-3 flex items-center gap-2">
         <span className="w-5 h-5 rounded-full bg-[var(--primary)] text-white flex items-center justify-center text-[10px] font-bold">1</span>
-        Your Details
+        {t('checkout.yourDetails')}
       </h2>
       <Card>
         <CardContent className="p-4 space-y-3">
           <div>
-            <Label htmlFor="name" className="text-xs mb-1 block">Full Name</Label>
+            <Label htmlFor="name" className="text-xs mb-1 block">{t('checkout.fullName')}</Label>
             <Input id="name" placeholder="Sarah Wijaya" value={form.name} onChange={(e) => updateForm("name", e.target.value)} className="h-11" />
           </div>
           <div className="grid grid-cols-2 gap-3">
             <div>
-              <Label htmlFor="email" className="text-xs mb-1 block">Email</Label>
+              <Label htmlFor="email" className="text-xs mb-1 block">{t('checkout.email')}</Label>
               <Input
                 id="email"
                 type="email"
@@ -38,11 +43,11 @@ export function CustomerDetails({ form, updateForm, emailError, phoneError }: Cu
                 className={`h-11 ${emailError ? "border-red-400 focus-visible:ring-red-400" : ""}`}
               />
               {emailError && (
-                <p className="text-[11px] text-red-500 mt-1">Enter a valid email address</p>
+                <p className="text-[11px] text-red-500 mt-1">{t('validation.invalidEmail')}</p>
               )}
             </div>
             <div>
-              <Label htmlFor="phone" className="text-xs mb-1 block">Phone</Label>
+              <Label htmlFor="phone" className="text-xs mb-1 block">{t('checkout.phone')}</Label>
               <Input
                 id="phone"
                 placeholder="08123456789"
@@ -51,7 +56,7 @@ export function CustomerDetails({ form, updateForm, emailError, phoneError }: Cu
                 className={`h-11 ${phoneError ? "border-red-400 focus-visible:ring-red-400" : ""}`}
               />
               {phoneError && (
-                <p className="text-[11px] text-red-500 mt-1">Use Indonesian format (08xx or +62)</p>
+                <p className="text-[11px] text-red-500 mt-1">{t('validation.invalidPhone')}</p>
               )}
             </div>
           </div>

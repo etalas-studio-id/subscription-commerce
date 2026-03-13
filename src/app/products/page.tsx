@@ -7,6 +7,7 @@ import { Leaf, Check, ArrowRight, ChevronLeft, AlertCircle } from "lucide-react"
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { useI18n } from "@/lib/i18n-context";
 
 interface Product {
   id: string;
@@ -25,6 +26,7 @@ function formatPrice(amount: number): string {
 
 export default function ProductsPage() {
   const router = useRouter();
+  const { t } = useI18n();
   const [products, setProducts] = useState<Product[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -50,7 +52,7 @@ export default function ProductsPage() {
           </Link>
           <div className="flex items-center gap-2">
             <Leaf className="h-5 w-5 text-[var(--primary)]" />
-            <span className="font-semibold text-sm">Select a Product</span>
+            <span className="font-semibold text-sm">{t('products.pageTitle')}</span>
           </div>
         </div>
       </header>
@@ -58,7 +60,7 @@ export default function ProductsPage() {
       <div className="max-w-2xl mx-auto px-5 pt-6">
         {loading ? (
           <div className="flex items-center justify-center h-64">
-            <div className="text-[var(--muted-foreground)]">Loading products...</div>
+            <div className="text-[var(--muted-foreground)]">{t('products.loading')}</div>
           </div>
         ) : (
           <div className="space-y-3">
@@ -79,7 +81,7 @@ export default function ProductsPage() {
                 >
                   {isFeatured && (
                     <div className="bg-[var(--primary)] text-white text-[10px] font-semibold tracking-wider uppercase py-1 text-center">
-                      Most Popular
+                      {t('products.mostPopular')}
                     </div>
                   )}
                   <CardContent className="p-4">
@@ -145,15 +147,15 @@ export default function ProductsPage() {
             <div className="mb-3 p-3 bg-amber-50 border border-amber-200 rounded-xl flex gap-2">
               <AlertCircle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
               <div className="text-sm text-amber-800">
-                <p className="font-semibold">Please select a product</p>
-                <p className="text-xs mt-1">Click on any product above to continue to checkout</p>
+                <p className="font-semibold">{t('products.selectAlert')}</p>
+                <p className="text-xs mt-1">{t('products.selectAlertDesc')}</p>
               </div>
             </div>
           )}
           <div className="flex items-center justify-between mb-2">
             <div>
               <div className="text-xs text-[var(--muted-foreground)]">
-                {selectedProduct ? selectedProduct.name : "No product selected"}
+                {selectedProduct ? selectedProduct.name : t('products.noProduct')}
               </div>
               {selectedProduct?.priceConfig && (
                 <div className="text-sm font-bold">
@@ -172,7 +174,7 @@ export default function ProductsPage() {
               }
             }}
           >
-            Continue to Checkout
+            {t('products.continueBtn')}
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </div>

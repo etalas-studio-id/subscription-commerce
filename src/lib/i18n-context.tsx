@@ -42,8 +42,7 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     return value || key;
   };
 
-  if (!mounted) return children;
-
+  // Always provide context, even before hydration. The default language 'id' works fine for SSR.
   return (
     <I18nContext.Provider value={{ language, setLanguage, t }}>
       {children}

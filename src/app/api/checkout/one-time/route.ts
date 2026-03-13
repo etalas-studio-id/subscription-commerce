@@ -6,7 +6,7 @@ import { sendOrderConfirmation } from "@/lib/mock-email";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { productId, paymentMethod, customer } = body;
+    const { productId, customer } = body;
 
     // Get product and price
     const product = await prisma.product.findUnique({
@@ -76,7 +76,7 @@ export async function POST(request: Request) {
         externalId: invoice.externalId,
         amount,
         status: "PENDING",
-        paymentMethod: paymentMethod || "bank_transfer",
+        paymentMethod: "bank_transfer",
         paymentUrl: invoice.paymentUrl,
       },
     });
