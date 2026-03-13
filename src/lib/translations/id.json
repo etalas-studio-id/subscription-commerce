@@ -1,0 +1,33 @@
+{
+  "site": {
+    "title": "Panen Baik - Toko Langganan",
+    "description": "Sayuran segar berkualitas premium dikirim ke pintu Anda. Berlangganan pengiriman mingguan, bulanan, atau sekali jadi dari sayuran dan buah organik pilihan."
+  },
+  "header": {
+    "checkout": "Pembayaran",
+    "admin": "Admin",
+    "orderNow": "Pesan Sekarang"
+  },
+  "checkout": {
+    "yourDetails": "Data Diri Anda",
+    "fullName": "Nama Lengkap",
+    "email": "Email",
+    "phone": "Nomor Telepon",
+    "deliveryDetails": "Detail Pengiriman",
+    "address": "Alamat",
+    "city": "Kota",
+    "postalCode": "Kode Pos",
+    "deliveryNotes": "Catatan Pengiriman",
+    "orderType": "Jenis Pemesanan",
+    "oneTime": "Pemesanan Satu Kali",
+    "subscription": "Berlangganan & Hemat",
+    "frequency": "Frekuensi Pengiriman",
+    "paymentMethod": "Metode Pembayaran",
+    "placeOrder": "Pesan Sekarang",
+    "continuePayment": "Lanjut ke Otorisasi Pembayaran"
+  },
+  "validation": {
+    "invalidEmail": "Masukkan email yang valid",
+    "invalidPhone": "Gunakan format Indonesia (08xx atau +62)"
+  }
+}

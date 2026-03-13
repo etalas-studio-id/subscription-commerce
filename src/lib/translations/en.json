@@ -1,0 +1,33 @@
+{
+  "site": {
+    "title": "Panen Baik - Fresh Produce Subscription",
+    "description": "Premium fresh produce delivered to your door. Subscribe to weekly, monthly, or one-time deliveries of organic vegetables and fruits."
+  },
+  "header": {
+    "checkout": "Checkout",
+    "admin": "Admin",
+    "orderNow": "Order Now"
+  },
+  "checkout": {
+    "yourDetails": "Your Details",
+    "fullName": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "deliveryDetails": "Delivery Details",
+    "address": "Address",
+    "city": "City",
+    "postalCode": "Postal Code",
+    "deliveryNotes": "Delivery Notes",
+    "orderType": "Order Type",
+    "oneTime": "One-Time Order",
+    "subscription": "Subscribe & Save",
+    "frequency": "Delivery Frequency",
+    "paymentMethod": "Payment Method",
+    "placeOrder": "Place Order",
+    "continuePayment": "Continue to Payment Authorization"
+  },
+  "validation": {
+    "invalidEmail": "Enter a valid email address",
+    "invalidPhone": "Use Indonesian format (08xx or +62)"
+  }
+}

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, DM_Serif_Display } from "next/font/google";
 import { Toaster } from "sonner";
+import { I18nProvider } from "@/lib/i18n-context";
 import "./globals.css";
 
 const inter = Inter({
@@ -17,7 +18,7 @@ const dmSerif = DM_Serif_Display({
 export const metadata: Metadata = {
   title: "Panen Baik - Toko Langganan",
   description:
-    "Premium fresh produce delivered to your door. Subscribe to weekly, monthly, or one-time deliveries of organic vegetables and fruits.",
+    "Sayuran segar berkualitas premium dikirim ke pintu Anda. Berlangganan pengiriman mingguan, bulanan, atau sekali jadi dari sayuran dan buah organik pilihan.",
 };
 
 export default function RootLayout({
@@ -26,10 +27,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="id">
       <body className={`${inter.variable} ${dmSerif.variable} antialiased`}>
-        {children}
-        <Toaster position="top-center" richColors />
+        <I18nProvider>
+          {children}
+          <Toaster position="top-center" richColors />
+        </I18nProvider>
       </body>
     </html>
   );
