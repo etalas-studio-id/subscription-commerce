@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Leaf, Check, ArrowRight, ChevronLeft } from "lucide-react";
+import { Leaf, Check, ArrowRight, ChevronLeft, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -50,51 +50,30 @@ export default function ProductsPage() {
           </Link>
           <div className="flex items-center gap-2">
             <Leaf className="h-5 w-5 text-[var(--primary)]" />
-            <span className="font-semibold text-sm">Choose Your Box</span>
+            <span className="font-semibold text-sm">Select a Product</span>
           </div>
         </div>
       </header>
 
-      {/* Step indicator */}
-      <div className="max-w-2xl mx-auto px-5 pt-5 pb-2">
-        <div className="flex items-center gap-2 text-xs text-[var(--muted-foreground)]">
-          <span className="text-[var(--primary)] font-semibold">1. Select</span>
-          <span className="text-[var(--border)]">→</span>
-          <span>2. Checkout</span>
-          <span className="text-[var(--border)]">→</span>
-          <span>3. Pay</span>
-        </div>
-      </div>
-
-      {/* Products */}
-      <div className="max-w-2xl mx-auto px-5 pt-4 space-y-4">
-        <div>
-          <h1 className="heading-display text-2xl mb-1">Pick your harvest box</h1>
-          <p className="text-sm text-[var(--muted-foreground)]">
-            Select one box to continue to checkout.
-          </p>
-        </div>
-
+      <div className="max-w-2xl mx-auto px-5 pt-6">
         {loading ? (
-          <div className="space-y-4">
-            {[1, 2, 3].map((i) => (
-              <div key={i} className="skeleton h-48 rounded-xl" />
-            ))}
+          <div className="flex items-center justify-center h-64">
+            <div className="text-[var(--muted-foreground)]">Loading products...</div>
           </div>
         ) : (
-          <div className="space-y-4">
+          <div className="space-y-3">
             {products.map((product) => {
               const isSelected = selectedId === product.id;
+              const isFeatured = product.tags?.includes("popular");
               const tags = product.tags ? product.tags.split(",").map((t) => t.trim()) : [];
-              const isFeatured = tags.includes("popular");
 
               return (
                 <Card
                   key={product.id}
-                  className={`relative overflow-hidden cursor-pointer transition-all duration-200 ${
+                  className={`cursor-pointer transition-all ${
                     isSelected
-                      ? "ring-2 ring-[var(--primary)] shadow-lg bg-[var(--color-emerald-50)]/30"
-                      : "hover:shadow-md"
+                      ? "border-[var(--primary)] shadow-md"
+                      : "border-[var(--border)] hover:shadow-sm"
                   }`}
                   onClick={() => setSelectedId(product.id)}
                 >
@@ -162,15 +141,26 @@ export default function ProductsPage() {
       {/* Sticky CTA */}
       <div className="sticky-bottom-cta">
         <div className="max-w-2xl mx-auto">
-          <div className="flex items-center justify-between mb-2">
-            <div className="text-xs text-[var(--muted-foreground)]">
-              {selectedProduct ? selectedProduct.name : "No box selected"}
-            </div>
-            {selectedProduct?.priceConfig && (
-              <div className="text-sm font-bold">
-                {formatPrice(selectedProduct.priceConfig.basePrice)}
+          {!selectedId && (
+            <div className="mb-3 p-3 bg-amber-50 border border-amber-200 rounded-xl flex gap-2">
+              <AlertCircle className="h-5 w-5 text-amber-600 shrink-0 mt-0.5" />
+              <div className="text-sm text-amber-800">
+                <p className="font-semibold">Please select a product</p>
+                <p className="text-xs mt-1">Click on any product above to continue to checkout</p>
               </div>
-            )}
+            </div>
+          )}
+          <div className="flex items-center justify-between mb-2">
+            <div>
+              <div className="text-xs text-[var(--muted-foreground)]">
+                {selectedProduct ? selectedProduct.name : "No product selected"}
+              </div>
+              {selectedProduct?.priceConfig && (
+                <div className="text-sm font-bold">
+                  {formatPrice(selectedProduct.priceConfig.basePrice)}
+                </div>
+              )}
+            </div>
           </div>
           <Button
             className="w-full rounded-full h-12 text-sm font-medium"
