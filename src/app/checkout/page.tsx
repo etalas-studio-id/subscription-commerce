@@ -64,7 +64,7 @@ function CheckoutForm() {
   const [submitting, setSubmitting] = useState(false);
 
   // Form state
-  const [orderType, setOrderType] = useState<"ONE_TIME" | "SUBSCRIPTION">("ONE_TIME");
+  const [orderType, setOrderType] = useState<"ONE_TIME" | "SUBSCRIPTION">("SUBSCRIPTION");
   const [frequency, setFrequency] = useState("WEEKLY");
   const [paymentMethod, setPaymentMethod] = useState("credit_card");
   const [form, setForm] = useState({
