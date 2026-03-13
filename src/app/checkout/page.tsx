@@ -93,8 +93,10 @@ function CheckoutForm() {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
 
+  const isEmailValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email);
+  const isPhoneValid = /^(\+62|62|0)[0-9]{9,12}$/.test(form.phone.replace(/[\s-]/g, ""));
   const isFormValid =
-    form.name && form.email && form.phone && form.address && form.city && form.postalCode;
+    form.name && isEmailValid && isPhoneValid && form.address && form.city && form.postalCode;
 
   const handleSubmit = async () => {
     if (!product || !isFormValid) return;
@@ -120,11 +122,13 @@ function CheckoutForm() {
 
       const data = await res.json();
 
+      if (!res.ok) {
+        throw new Error(data.error || "Checkout failed");
+      }
+
       if (data.redirectUrl) {
-        // For subscription: redirect to Xendit-hosted page (or mock)
         window.location.href = data.redirectUrl;
       } else if (data.paymentUrl) {
-        // For one-time: redirect to payment
         window.location.href = data.paymentUrl;
       } else {
         router.push("/payment/success?orderId=" + data.orderId);
@@ -180,7 +184,7 @@ function CheckoutForm() {
         </Card>
 
         {/* ─── Customer Details ──────────────────────────────────────────── */}
-        <CustomerDetails form={form} updateForm={updateForm} />
+        <CustomerDetails form={form} updateForm={updateForm} emailError={!!form.email && !isEmailValid} phoneError={!!form.phone && !isPhoneValid} />
 
         {/* ─── Delivery Details ──────────────────────────────────────────── */}
         <DeliveryAddress form={form} updateForm={updateForm} />

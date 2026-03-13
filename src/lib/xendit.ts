@@ -132,7 +132,7 @@ export async function createPaymentInvoice(params: CreateInvoiceParams) {
     customer: {
       given_names: params.customerName,
       email: params.customerEmail,
-      mobile_number: params.customerPhone,
+      mobile_number: normalizePhone(params.customerPhone),
     },
     customer_notification_preference: {
       invoice_created: ["email"],
@@ -162,6 +162,14 @@ export interface CreateSubscriptionParams {
   frequency: string; // DAILY, WEEKLY, MONTHLY, YEARLY
   description: string;
   xenditCustomerId?: string;
+}
+
+function normalizePhone(phone: string): string {
+  const digits = phone.replace(/\D/g, "");
+  if (digits.startsWith("0")) return "+62" + digits.slice(1);
+  if (digits.startsWith("62")) return "+" + digits;
+  if (digits.startsWith("+")) return phone;
+  return "+" + digits;
 }
 
 function getIntervalFromFrequency(frequency: string): { interval: string; intervalCount: number } {
@@ -198,10 +206,10 @@ export async function createXenditCustomer(params: {
 }) {
   const customer = await makeXenditRequest("/customers", "POST", {
     reference_id: `customer-${params.orderId}-${Date.now()}`,
+    given_names: params.name,
     email: params.email,
-    mobile_number: params.phone,
+    mobile_number: normalizePhone(params.phone),
     type: "INDIVIDUAL",
-    individual_detail: { given_names: params.name },
   });
 
   return {

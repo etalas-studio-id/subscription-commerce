@@ -3,6 +3,8 @@ import { NextResponse } from "next/server";
 import { createSubscriptionPlan } from "@/lib/xendit";
 import { sendSubscriptionCreated } from "@/lib/mock-email";
 
+const XENDIT_CUSTOMER_ID_RE = /^(cust-)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -68,7 +70,7 @@ export async function POST(request: Request) {
       customerPhone: customer.phone,
       frequency: frequency || "WEEKLY",
       description: `${product.name} - ${frequency || "Weekly"} Subscription`,
-      xenditCustomerId: dbCustomer.xenditCustomerId || undefined,
+      xenditCustomerId: dbCustomer.xenditCustomerId && XENDIT_CUSTOMER_ID_RE.test(dbCustomer.xenditCustomerId) ? dbCustomer.xenditCustomerId : undefined,
     });
 
     // Update customer with Xendit customer ID
