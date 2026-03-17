@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { RefreshCw, Search, Filter } from "lucide-react";
+import { RefreshCw, Search, Filter, ShoppingBag } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -135,15 +135,28 @@ export default function OrdersPage() {
           ))}
         </div>
       ) : filtered.length === 0 ? (
-        <div className="text-center py-12 text-sm text-[var(--muted-foreground)]">
-          No orders found
+        <div className="text-center py-16 text-[var(--muted-foreground)]">
+          <ShoppingBag className="h-10 w-10 mx-auto mb-3 opacity-20" />
+          <p className="text-sm font-medium">No orders found</p>
+          <p className="text-xs mt-1">
+            {search || filterType !== "ALL" || filterStatus !== "ALL"
+              ? "Try adjusting your filters"
+              : "Orders will appear here once customers start buying"}
+          </p>
         </div>
       ) : (
         <div className="space-y-2">
           {filtered.map((order) => {
             const paymentStatus = order.payments[0]?.status || "PENDING";
             return (
-              <Card key={order.id}>
+              <Card
+                key={order.id}
+                className={`border-l-4 ${
+                  order.orderType === "SUBSCRIPTION"
+                    ? "border-l-emerald-600"
+                    : "border-l-stone-300"
+                }`}
+              >
                 <CardContent className="p-4">
                   <div className="flex items-start justify-between mb-2">
                     <div className="min-w-0">
@@ -169,17 +182,34 @@ export default function OrdersPage() {
                     </Badge>
                     <Badge
                       variant="secondary"
-                      className="text-[10px] px-2 py-0 badge-neutral"
+                      className={`text-[10px] px-2 py-0 ${
+                        order.orderType === "SUBSCRIPTION"
+                          ? "badge-info"
+                          : "badge-neutral"
+                      }`}
                     >
                       {order.orderType === "SUBSCRIPTION" ? (
                         <span className="flex items-center gap-1">
-                          <RefreshCw className="h-2.5 w-2.5" />
+                          <RefreshCw className="h-3 w-3" />
                           {order.frequency}
                         </span>
                       ) : (
-                        "One-Time"
+                        <span className="flex items-center gap-1">
+                          <ShoppingBag className="h-3 w-3" />
+                          One-Time
+                        </span>
                       )}
                     </Badge>
+                    {order.subscription?.status && (
+                      <Badge
+                        variant="secondary"
+                        className={`text-[10px] px-2 py-0 ${statusColor(
+                          order.subscription.status
+                        )}`}
+                      >
+                        Sub: {order.subscription.status}
+                      </Badge>
+                    )}
                     <Badge
                       variant="secondary"
                       className={`text-[10px] px-2 py-0 ${statusColor(paymentStatus)}`}

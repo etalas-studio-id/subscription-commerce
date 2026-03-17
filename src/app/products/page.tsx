@@ -14,6 +14,8 @@ interface Product {
   name: string;
   description: string;
   tags: string;
+  stock: number | null;
+  lowStockThreshold: number;
   priceConfig: {
     basePrice: number;
     comparePrice: number | null;
@@ -33,9 +35,16 @@ export default function ProductsPage() {
 
   useEffect(() => {
     fetch("/api/products")
-      .then((res) => res.json())
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to fetch products");
+        return res.json();
+      })
       .then((data) => {
         setProducts(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error loading products:", error);
         setLoading(false);
       });
   }, []);
@@ -76,8 +85,8 @@ export default function ProductsPage() {
                     isSelected
                       ? "border-[var(--primary)] shadow-md"
                       : "border-[var(--border)] hover:shadow-sm"
-                  }`}
-                  onClick={() => setSelectedId(product.id)}
+                  } ${product.stock === 0 ? "opacity-60" : ""}`}
+                  onClick={() => product.stock !== 0 && setSelectedId(product.id)}
                 >
                   {isFeatured && (
                     <div className="bg-[var(--primary)] text-white text-[10px] font-semibold tracking-wider uppercase py-1 text-center">
@@ -94,7 +103,15 @@ export default function ProductsPage() {
                       <div className="flex-1 min-w-0">
                         <div className="flex items-start justify-between gap-2">
                           <div>
-                            <h3 className="font-semibold text-sm">{product.name}</h3>
+                            <div className="flex items-center gap-2">
+                              <h3 className="font-semibold text-sm">{product.name}</h3>
+                              {product.stock === 0 && (
+                                <Badge className="bg-red-100 text-red-700 text-[9px] px-1.5 py-0">Out of Stock</Badge>
+                              )}
+                              {product.stock !== null && product.stock > 0 && product.stock <= product.lowStockThreshold && (
+                                <Badge className="bg-amber-100 text-amber-700 text-[9px] px-1.5 py-0">Low Stock</Badge>
+                              )}
+                            </div>
                             <p className="text-xs text-[var(--muted-foreground)] line-clamp-2 mt-0.5 leading-relaxed">
                               {product.description}
                             </p>

@@ -1,10 +1,30 @@
 import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { sendPaymentFailed } from "@/lib/mock-email";
+import { XenditWebhookSchema } from "@/lib/validation";
 
 export async function POST(request: Request) {
   try {
+    // Verify webhook signature using x-callback-token header
+    const callbackToken = request.headers.get("x-callback-token");
+    const expectedToken = process.env.XENDIT_WEBHOOK_TOKEN;
+
+    if (!expectedToken || callbackToken !== expectedToken) {
+      console.warn("🚨 Webhook signature verification failed");
+      return NextResponse.json(
+        { error: "Unauthorized" },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
+
+    // Validate webhook payload (lenient, just log warnings)
+    const validation = XenditWebhookSchema.safeParse(body);
+    if (!validation.success) {
+      console.warn("⚠️  Webhook validation warning:", validation.error.errors);
+    }
+
     const eventType = body.event || body.type;
 
     console.log("\n🔔 ─── XENDIT WEBHOOK ────────────────────────────");
@@ -25,27 +45,28 @@ export async function POST(request: Request) {
 
       if (payment) {
         const newStatus =
-          status === "PAID" || status === "SETTLED" ? "SUCCESS" : 
+          status === "PAID" || status === "SETTLED" ? "SUCCESS" :
           status === "EXPIRED" ? "FAILED" : "PENDING";
 
-        await prisma.payment.update({
-          where: { id: payment.id },
-          data: { status: newStatus },
-        });
-
-        if (newStatus === "SUCCESS") {
-          await prisma.order.update({
-            where: { id: payment.orderId },
-            data: { orderStatus: "PAID" },
-          });
-        }
-
-        if (newStatus === "FAILED") {
-          await prisma.order.update({
-            where: { id: payment.orderId },
-            data: { orderStatus: "CANCELLED" },
-          });
-        }
+        // Use transaction for atomicity
+        await prisma.$transaction([
+          prisma.payment.update({
+            where: { id: payment.id },
+            data: { status: newStatus },
+          }),
+          ...(newStatus === "SUCCESS"
+            ? [prisma.order.update({
+                where: { id: payment.orderId },
+                data: { orderStatus: "PAID" },
+              })]
+            : []),
+          ...(newStatus === "FAILED"
+            ? [prisma.order.update({
+                where: { id: payment.orderId },
+                data: { orderStatus: "CANCELLED" },
+              })]
+            : []),
+        ]);
       }
     }
 
@@ -71,17 +92,24 @@ export async function POST(request: Request) {
 
       case "recurring.cycle.succeeded": {
         const planId = body.data?.plan_id || body.plan_id;
+        const externalId = body.data?.reference_id || body.reference_id || `${planId}-${body.data?.id || body.id}`;
         const sub = await prisma.subscription.findFirst({
           where: { xenditPlanId: planId },
         });
         if (sub) {
-          await prisma.payment.create({
-            data: {
+          // Use upsert for idempotency - if this webhook is retried, update the existing payment
+          await prisma.payment.upsert({
+            where: { externalId },
+            create: {
               orderId: sub.orderId,
               xenditPaymentId: body.data?.id || body.id,
+              externalId,
               amount: sub.amount,
               status: "SUCCESS",
               paymentMethod: "RECURRING",
+            },
+            update: {
+              status: "SUCCESS",
             },
           });
         }
@@ -91,18 +119,25 @@ export async function POST(request: Request) {
       case "recurring.cycle.failed":
       case "recurring.cycle.retrying": {
         const planId = body.data?.plan_id || body.plan_id;
+        const externalId = body.data?.reference_id || body.reference_id || `${planId}-${body.data?.id || body.id}`;
         const sub = await prisma.subscription.findFirst({
           where: { xenditPlanId: planId },
           include: { customer: true },
         });
         if (sub) {
-          await prisma.payment.create({
-            data: {
+          // Use upsert for idempotency
+          await prisma.payment.upsert({
+            where: { externalId },
+            create: {
               orderId: sub.orderId,
               xenditPaymentId: body.data?.id || body.id,
+              externalId,
               amount: sub.amount,
-              status: "FAILED",
+              status: eventType === "recurring.cycle.failed" ? "FAILED" : "PENDING",
               paymentMethod: "RECURRING",
+            },
+            update: {
+              status: eventType === "recurring.cycle.failed" ? "FAILED" : "PENDING",
             },
           });
 

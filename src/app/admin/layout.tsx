@@ -12,8 +12,10 @@ import {
   Menu,
   X,
   ChevronLeft,
+  LogOut,
 } from "lucide-react";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
 const navItems = [
@@ -30,7 +32,13 @@ export default function AdminLayout({
   children: React.ReactNode;
 }) {
   const pathname = usePathname();
+  const router = useRouter();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    router.push("/admin/login");
+  };
 
   return (
     <div className="min-h-screen bg-[var(--color-stone-50)]">
@@ -66,8 +74,8 @@ export default function AdminLayout({
             className="absolute inset-0 bg-black/30"
             onClick={() => setSidebarOpen(false)}
           />
-          <aside className="absolute left-0 top-14 bottom-0 w-64 bg-white border-r border-[var(--border)] p-4">
-            <nav className="space-y-1">
+          <aside className="absolute left-0 top-14 bottom-0 w-64 bg-white border-r border-[var(--border)] p-4 flex flex-col">
+            <nav className="space-y-1 flex-1">
               {navItems.map((item) => {
                 const Icon = item.icon;
                 const active = pathname === item.href;
@@ -88,18 +96,27 @@ export default function AdminLayout({
                 );
               })}
             </nav>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              size="sm"
+              className="w-full text-xs mt-4"
+            >
+              <LogOut className="h-3 w-3 mr-1" />
+              Sign Out
+            </Button>
           </aside>
         </div>
       )}
 
       <div className="flex">
         {/* Desktop sidebar */}
-        <aside className="hidden lg:block w-60 min-h-[calc(100vh-0px)] bg-white border-r border-[var(--border)] p-4 sticky top-0">
+        <aside className="hidden lg:flex flex-col w-60 min-h-[calc(100vh-0px)] bg-white border-r border-[var(--border)] p-4 sticky top-0">
           <div className="flex items-center gap-2 px-3 py-3 mb-4">
             <Leaf className="h-5 w-5 text-[var(--primary)]" />
             <span className="font-semibold text-sm">Panen Baik</span>
           </div>
-          <nav className="space-y-1">
+          <nav className="space-y-1 flex-1">
             {navItems.map((item) => {
               const Icon = item.icon;
               const active = pathname === item.href;
@@ -119,13 +136,22 @@ export default function AdminLayout({
               );
             })}
           </nav>
-          <div className="absolute bottom-4 left-4 right-4">
+          <div className="space-y-2">
             <Link href="/">
               <Button variant="outline" className="w-full text-xs" size="sm">
                 <ChevronLeft className="h-3 w-3 mr-1" />
                 Back to Store
               </Button>
             </Link>
+            <Button
+              onClick={handleLogout}
+              variant="outline"
+              className="w-full text-xs"
+              size="sm"
+            >
+              <LogOut className="h-3 w-3 mr-1" />
+              Sign Out
+            </Button>
           </div>
         </aside>
 

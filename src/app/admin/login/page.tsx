@@ -8,9 +8,6 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 
-const ADMIN_USERNAME = 'test@gmail.com';
-const ADMIN_PASSWORD = 'test123';
-
 export default function AdminLoginPage() {
   const router = useRouter();
   const [username, setUsername] = useState('');
@@ -23,19 +20,26 @@ export default function AdminLoginPage() {
     setError('');
     setLoading(true);
 
-    // Simulate auth delay
-    await new Promise(resolve => setTimeout(resolve, 500));
+    try {
+      const res = await fetch('/api/admin/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ username, password }),
+      });
 
-    if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
-      localStorage.setItem('adminAuth', 'true');
-      localStorage.setItem('adminUsername', username);
-      router.push('/admin');
-    } else {
-      setError('Invalid username or password');
-      setPassword('');
+      if (res.ok) {
+        // JWT is set in httpOnly cookie by the API
+        router.push('/admin');
+      } else {
+        setError('Invalid username or password');
+        setPassword('');
+      }
+    } catch (err) {
+      console.error('Login error:', err);
+      setError('Login failed. Please try again.');
+    } finally {
+      setLoading(false);
     }
-
-    setLoading(false);
   };
 
   return (
@@ -73,11 +77,12 @@ export default function AdminLoginPage() {
                 <Input
                   id="username"
                   type="text"
-                  placeholder="test@gmail.com"
+                  placeholder="admin@example.com"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
                   disabled={loading}
                   className="h-10"
+                  autoFocus
                 />
               </div>
 

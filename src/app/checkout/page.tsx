@@ -17,6 +17,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
 import { Header } from "@/components/layout/Header";
+import { toast } from "sonner";
 import { CustomerDetails } from "@/components/checkout/CustomerForm";
 import { DeliveryAddress } from "@/components/checkout/DeliveryAddress";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
@@ -26,7 +27,8 @@ interface Product {
   id: string;
   name: string;
   description: string;
-  priceConfig: { basePrice: number; comparePrice: number | null } | null;
+  stock: number | null;
+  priceConfig: { basePrice: number; comparePrice: number | null; oneTimePrice?: number | null; dailyPrice?: number | null; weeklyPrice?: number | null; monthlyPrice?: number | null; yearlyPrice?: number | null } | null;
 }
 
 interface FrequencySetting {
@@ -39,6 +41,20 @@ interface FrequencySetting {
 
 function formatPrice(amount: number): string {
   return `Rp ${amount.toLocaleString("id-ID")}`;
+}
+
+function getPrice(priceConfig: Product["priceConfig"], orderType: string, frequency: string): number {
+  if (!priceConfig) return 0;
+  if (orderType === "ONE_TIME") {
+    return priceConfig.oneTimePrice ?? priceConfig.basePrice;
+  }
+  const frequencyMap: Record<string, keyof typeof priceConfig> = {
+    DAILY: "dailyPrice",
+    WEEKLY: "weeklyPrice",
+    MONTHLY: "monthlyPrice",
+    YEARLY: "yearlyPrice",
+  };
+  return priceConfig[frequencyMap[frequency]] ?? priceConfig.basePrice;
 }
 
 const acceptedPayments = [
@@ -78,7 +94,15 @@ function CheckoutForm() {
     ]).then(([products, freqs]) => {
       const found = products.find((p: Product) => p.id === productId);
       setProduct(found || products[0]);
-      setFrequencies(freqs);
+      const enabledFreqs = freqs.filter((f: FrequencySetting) => f.enabled);
+      setFrequencies(enabledFreqs);
+      // Check if ONE_TIME is enabled, if not default to first enabled subscription frequency
+      const oneTimeEnabled = enabledFreqs.some((f: FrequencySetting) => f.frequency === "ONE_TIME");
+      if (!oneTimeEnabled && enabledFreqs.length > 0) {
+        setOrderType("SUBSCRIPTION");
+        const subFreq = enabledFreqs.find((f: FrequencySetting) => f.frequency !== "ONE_TIME");
+        if (subFreq) setFrequency(subFreq.frequency);
+      }
       setLoading(false);
     });
   }, [productId]);
@@ -129,14 +153,16 @@ function CheckoutForm() {
       } else {
         router.push("/payment/success?orderId=" + data.orderId);
       }
-    } catch {
-      router.push("/payment/failed");
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Checkout failed";
+      toast.error(message);
+      console.error("Checkout error:", error);
     } finally {
       setSubmitting(false);
     }
   };
 
-  const price = product?.priceConfig?.basePrice || 0;
+  const price = getPrice(product?.priceConfig || null, orderType, frequency);
 
   if (loading) {
     return (
@@ -213,22 +239,24 @@ function CheckoutForm() {
                 onValueChange={(v) => setOrderType(v as "ONE_TIME" | "SUBSCRIPTION")}
                 className="space-y-3"
               >
-                {/* One-time */}
-                <label
-                  className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
-                    orderType === "ONE_TIME"
-                      ? "border-[var(--primary)] bg-[var(--color-emerald-50)]/50"
-                      : "border-[var(--border)] hover:border-[var(--color-stone-300)]"
-                  }`}
-                >
-                  <RadioGroupItem value="ONE_TIME" className="mt-0.5" />
-                  <div>
-                    <div className="font-medium text-sm">{t('checkout.oneTime')}</div>
-                    <div className="text-xs text-[var(--muted-foreground)] mt-0.5">
-                      {t('checkout.oneTimeDesc')}
+                {/* One-time - only show if enabled */}
+                {frequencies.some((f) => f.frequency === "ONE_TIME") && (
+                  <label
+                    className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${
+                      orderType === "ONE_TIME"
+                        ? "border-[var(--primary)] bg-[var(--color-emerald-50)]/50"
+                        : "border-[var(--border)] hover:border-[var(--color-stone-300)]"
+                    }`}
+                  >
+                    <RadioGroupItem value="ONE_TIME" className="mt-0.5" />
+                    <div>
+                      <div className="font-medium text-sm">{t('checkout.oneTime')}</div>
+                      <div className="text-xs text-[var(--muted-foreground)] mt-0.5">
+                        {t('checkout.oneTimeDesc')}
+                      </div>
                     </div>
-                  </div>
-                </label>
+                  </label>
+                )}
                 {/* Subscription */}
                 <label
                   className={`flex items-start gap-3 p-3 rounded-xl border cursor-pointer transition-all ${

@@ -2,11 +2,25 @@ import { prisma } from "@/lib/db";
 import { NextResponse } from "next/server";
 import { createPaymentInvoice } from "@/lib/xendit";
 import { sendOrderConfirmation } from "@/lib/mock-email";
+import { OneTimeCheckoutSchema } from "@/lib/validation";
 
 export async function POST(request: Request) {
+  let order: any = null;
+
   try {
     const body = await request.json();
-    const { productId, customer } = body;
+
+    // Validate request body with Zod
+    const validation = OneTimeCheckoutSchema.safeParse(body);
+    if (!validation.success) {
+      console.error("One-time checkout validation failed:", JSON.stringify(validation.error.errors, null, 2));
+      return NextResponse.json(
+        { error: validation.error.errors.map(e => e.message).join(", ") },
+        { status: 400 }
+      );
+    }
+
+    const { productId, customer } = validation.data;
 
     // Get product and price
     const product = await prisma.product.findUnique({
@@ -18,22 +32,26 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Product not found" }, { status: 404 });
     }
 
-    const amount = product.priceConfig.basePrice;
-
-    // Create or find customer
-    let dbCustomer = await prisma.customer.findFirst({
-      where: { email: customer.email },
-    });
-
-    if (!dbCustomer) {
-      dbCustomer = await prisma.customer.create({
-        data: {
-          name: customer.name,
-          email: customer.email,
-          phone: customer.phone,
-        },
-      });
+    // Check stock
+    if (product.stock !== null && product.stock <= 0) {
+      return NextResponse.json({ error: "Product out of stock" }, { status: 400 });
     }
+
+    const amount = product.priceConfig.oneTimePrice ?? product.priceConfig.basePrice;
+
+    // Create or update customer (upsert on email)
+    const dbCustomer = await prisma.customer.upsert({
+      where: { email: customer.email },
+      create: {
+        name: customer.name,
+        email: customer.email,
+        phone: customer.phone,
+      },
+      update: {
+        name: customer.name,
+        phone: customer.phone,
+      },
+    });
 
     // Create address
     const address = await prisma.address.create({
@@ -46,17 +64,25 @@ export async function POST(request: Request) {
       },
     });
 
-    // Create order
-    const order = await prisma.order.create({
+    // Create order with INITIATING status (order-first pattern)
+    order = await prisma.order.create({
       data: {
         customerId: dbCustomer.id,
         productId: product.id,
         addressId: address.id,
         orderType: "ONE_TIME",
         amount,
-        orderStatus: "NEW",
+        orderStatus: "INITIATING",
       },
     });
+
+    // Decrement stock if not unlimited
+    if (product.stock !== null) {
+      await prisma.product.update({
+        where: { id: product.id },
+        data: { stock: { decrement: 1 } },
+      });
+    }
 
     // Create payment invoice via Xendit
     const invoice = await createPaymentInvoice({
@@ -68,28 +94,39 @@ export async function POST(request: Request) {
       description: `Panen Baik - ${product.name}`,
     });
 
-    // Save payment record
-    await prisma.payment.create({
-      data: {
-        orderId: order.id,
-        xenditPaymentId: invoice.paymentId,
-        externalId: invoice.externalId,
-        amount,
-        status: "PENDING",
-        paymentMethod: "bank_transfer",
-        paymentUrl: invoice.paymentUrl,
-      },
-    });
+    // Wrap all post-Xendit DB writes in a transaction
+    await prisma.$transaction([
+      prisma.payment.create({
+        data: {
+          orderId: order.id,
+          xenditPaymentId: invoice.paymentId,
+          externalId: invoice.externalId,
+          amount,
+          status: "PENDING",
+          paymentMethod: "bank_transfer",
+          paymentUrl: invoice.paymentUrl,
+        },
+      }),
+      prisma.order.update({
+        where: { id: order.id },
+        data: { orderStatus: "NEW" },
+      }),
+    ]);
 
-    // Send confirmation email
-    await sendOrderConfirmation({
-      email: customer.email,
-      name: customer.name,
-      orderId: order.id,
-      productName: product.name,
-      amount,
-      orderType: "ONE_TIME",
-    });
+    // Send confirmation email (after all DB writes succeed)
+    try {
+      await sendOrderConfirmation({
+        email: customer.email,
+        name: customer.name,
+        orderId: order.id,
+        productName: product.name,
+        amount,
+        orderType: "ONE_TIME",
+      });
+    } catch (emailError) {
+      console.error("Failed to send confirmation email:", emailError);
+      // Don't fail the checkout if email fails
+    }
 
     return NextResponse.json({
       orderId: order.id,
@@ -97,6 +134,19 @@ export async function POST(request: Request) {
     });
   } catch (error) {
     console.error("One-time checkout error:", error);
+
+    // If order was created but Xendit or post-Xendit steps failed, mark it as cancelled
+    if (order) {
+      try {
+        await prisma.order.update({
+          where: { id: order.id },
+          data: { orderStatus: "CANCELLED" },
+        });
+      } catch (cancelError) {
+        console.error("Failed to cancel order:", cancelError);
+      }
+    }
+
     return NextResponse.json(
       { error: "Checkout failed" },
       { status: 500 }

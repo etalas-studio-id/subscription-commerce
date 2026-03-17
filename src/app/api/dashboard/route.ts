@@ -10,7 +10,7 @@ export async function GET() {
     recentOrders,
     recentSubscriptions,
   ] = await Promise.all([
-    prisma.order.count(),
+    prisma.order.count({ where: { orderType: "ONE_TIME" } }),
     prisma.subscription.count({ where: { status: "ACTIVE" } }),
     prisma.payment.aggregate({
       where: { status: "SUCCESS" },
@@ -19,6 +19,7 @@ export async function GET() {
     prisma.payment.count({ where: { status: "FAILED" } }),
     prisma.order.findMany({
       take: 5,
+      where: { orderType: "ONE_TIME" },
       orderBy: { createdAt: "desc" },
       include: {
         customer: true,
