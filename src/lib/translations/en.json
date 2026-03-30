@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Panen Baik - Fresh Produce Subscription",
+    "title": "Berkala - Fresh Produce Subscription",
     "description": "Premium fresh produce delivered to your door. Subscribe to weekly, monthly, or one-time deliveries of organic vegetables and fruits."
   },
   "header": {
@@ -147,10 +147,49 @@
     "tryAgain": "Try Again",
     "backHome": "Back to Home"
   },
+  "auth": {
+    "login": "Log In",
+    "register": "Create Account",
+    "logout": "Log Out",
+    "loginWithGoogle": "Continue with Google",
+    "orContinueWith": "or continue with",
+    "email": "Email",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "name": "Full Name",
+    "phone": "Phone Number",
+    "noAccount": "Don't have an account?",
+    "hasAccount": "Already have an account?",
+    "loginToAutofill": "Have an account? Log in to autofill",
+    "createAccountWithOrder": "Create an account with this order",
+    "setPassword": "Set a password",
+    "loggedInAs": "Logged in as",
+    "loginError": "Invalid email or password",
+    "registerError": "Registration failed",
+    "emailTaken": "An account with this email already exists",
+    "passwordMismatch": "Passwords do not match",
+    "passwordTooShort": "Password must be at least 8 characters"
+  },
+  "account": {
+    "title": "My Account",
+    "profile": "Profile",
+    "addresses": "Saved Addresses",
+    "orders": "Order History",
+    "saveChanges": "Save Changes",
+    "saved": "Changes saved",
+    "addAddress": "Add Address",
+    "deleteAddress": "Delete",
+    "setDefault": "Set as Default",
+    "noAddresses": "No saved addresses yet",
+    "noOrders": "No orders yet",
+    "orderDate": "Order Date",
+    "orderStatus": "Status",
+    "orderAmount": "Amount"
+  },
   "footer": {
     "products": "Products",
     "checkout": "Checkout",
     "admin": "Admin",
-    "copyright": "© 2024 Panen Baik. Prototype."
+    "copyright": "© 2024 Berkala. Prototype."
   }
 }

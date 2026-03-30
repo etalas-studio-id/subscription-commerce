@@ -111,7 +111,7 @@ export default function AdminDashboard() {
         <div className="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Leaf className="h-6 w-6 text-[var(--primary)]" />
-            <h1 className="text-xl font-bold text-[var(--foreground)]">Panen Baik Admin</h1>
+            <h1 className="text-xl font-bold text-[var(--foreground)]">Berkala Admin</h1>
           </div>
           <div className="flex items-center gap-4">
             <div className="text-xs text-[var(--muted-foreground)]">

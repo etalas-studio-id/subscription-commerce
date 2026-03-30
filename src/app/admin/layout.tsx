@@ -114,7 +114,7 @@ export default function AdminLayout({
         <aside className="hidden lg:flex flex-col w-60 min-h-[calc(100vh-0px)] bg-white border-r border-[var(--border)] p-4 sticky top-0">
           <div className="flex items-center gap-2 px-3 py-3 mb-4">
             <Leaf className="h-5 w-5 text-[var(--primary)]" />
-            <span className="font-semibold text-sm">Panen Baik</span>
+            <span className="font-semibold text-sm">Berkala</span>
           </div>
           <nav className="space-y-1 flex-1">
             {navItems.map((item) => {

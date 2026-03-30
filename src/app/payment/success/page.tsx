@@ -88,7 +88,7 @@ export default function PaymentSuccessPage() {
         {/* Logo footer */}
         <div className="flex items-center justify-center gap-2 mt-8 text-[var(--muted-foreground)]">
           <Leaf className="h-4 w-4 text-[var(--primary)]" />
-          <span className="text-xs">Panen Baik</span>
+          <span className="text-xs">Berkala</span>
         </div>
       </div>
     </div>

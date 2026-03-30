@@ -433,7 +433,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "sarah@example.com",
-        subject: "Panen Baik — Order Confirmation #ORDER1",
+        subject: "Berkala — Order Confirmation #ORDER1",
         type: "ORDER_CONFIRMATION",
         payload: JSON.stringify({ orderId: "order_1", product: "Veggie Box Small", amount: 99000 }),
       },
@@ -441,7 +441,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "sarah@example.com",
-        subject: "Panen Baik — Subscription Activated",
+        subject: "Berkala — Subscription Activated",
         type: "SUBSCRIPTION_CREATED",
         payload: JSON.stringify({ subscriptionId: "sub_1", product: "Veggie Box Medium", frequency: "WEEKLY" }),
       },
@@ -449,7 +449,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "budi@example.com",
-        subject: "Panen Baik — Order Confirmation #ORDER3",
+        subject: "Berkala — Order Confirmation #ORDER3",
         type: "ORDER_CONFIRMATION",
         payload: JSON.stringify({ orderId: "order_3", product: "Veggie Box Family", amount: 299000 }),
       },
@@ -457,7 +457,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "rina@example.com",
-        subject: "Panen Baik — Payment Update Required",
+        subject: "Berkala — Payment Update Required",
         type: "PAYMENT_FAILED",
         payload: JSON.stringify({ orderId: "order_5", amount: 179000, message: "Payment method declined" }),
       },
@@ -465,7 +465,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "rina@example.com",
-        subject: "Panen Baik — Payment Reminder",
+        subject: "Berkala — Payment Reminder",
         type: "PAYMENT_REMINDER",
         payload: JSON.stringify({ orderId: "order_5", amount: 179000, retryCount: 1 }),
       },
@@ -473,7 +473,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "andi@example.com",
-        subject: "Panen Baik — Subscription Activated",
+        subject: "Berkala — Subscription Activated",
         type: "SUBSCRIPTION_CREATED",
         payload: JSON.stringify({ subscriptionId: "sub_4", product: "Veggie Box Small", frequency: "WEEKLY" }),
       },

@@ -1,6 +1,6 @@
 {
   "site": {
-    "title": "Panen Baik - Toko Langganan",
+    "title": "Berkala - Toko Langganan",
     "description": "Sayuran segar berkualitas premium dikirim ke pintu Anda. Berlangganan pengiriman mingguan, bulanan, atau sekali jadi dari sayuran dan buah organik pilihan."
   },
   "header": {
@@ -147,10 +147,49 @@
     "tryAgain": "Coba Lagi",
     "backHome": "Kembali ke Beranda"
   },
+  "auth": {
+    "login": "Masuk",
+    "register": "Buat Akun",
+    "logout": "Keluar",
+    "loginWithGoogle": "Lanjutkan dengan Google",
+    "orContinueWith": "atau lanjutkan dengan",
+    "email": "Email",
+    "password": "Kata Sandi",
+    "confirmPassword": "Konfirmasi Kata Sandi",
+    "name": "Nama Lengkap",
+    "phone": "Nomor Telepon",
+    "noAccount": "Belum punya akun?",
+    "hasAccount": "Sudah punya akun?",
+    "loginToAutofill": "Punya akun? Masuk untuk isi otomatis",
+    "createAccountWithOrder": "Buat akun dengan pesanan ini",
+    "setPassword": "Buat kata sandi",
+    "loggedInAs": "Masuk sebagai",
+    "loginError": "Email atau kata sandi salah",
+    "registerError": "Pendaftaran gagal",
+    "emailTaken": "Akun dengan email ini sudah ada",
+    "passwordMismatch": "Kata sandi tidak cocok",
+    "passwordTooShort": "Kata sandi minimal 8 karakter"
+  },
+  "account": {
+    "title": "Akun Saya",
+    "profile": "Profil",
+    "addresses": "Alamat Tersimpan",
+    "orders": "Riwayat Pesanan",
+    "saveChanges": "Simpan Perubahan",
+    "saved": "Perubahan disimpan",
+    "addAddress": "Tambah Alamat",
+    "deleteAddress": "Hapus",
+    "setDefault": "Jadikan Utama",
+    "noAddresses": "Belum ada alamat tersimpan",
+    "noOrders": "Belum ada pesanan",
+    "orderDate": "Tanggal Pesanan",
+    "orderStatus": "Status",
+    "orderAmount": "Jumlah"
+  },
   "footer": {
     "products": "Produk",
     "checkout": "Checkout",
     "admin": "Admin",
-    "copyright": "© 2024 Panen Baik. Prototipe."
+    "copyright": "© 2024 Berkala. Prototipe."
   }
 }

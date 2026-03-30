@@ -13,7 +13,7 @@ export function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
             <Leaf className="h-5 w-5 text-[var(--primary)]" />
-            <span className="font-semibold text-sm">Panen Baik</span>
+            <span className="font-semibold text-sm">Berkala</span>
           </div>
           <div className="flex items-center gap-6 text-xs text-[var(--muted-foreground)]">
             <Link href="/products" className="hover:text-[var(--foreground)] transition-colors">
