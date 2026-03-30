@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { createPaymentInvoice } from "@/lib/xendit";
 import { sendOrderConfirmation } from "@/lib/mock-email";
 import { OneTimeCheckoutSchema } from "@/lib/validation";
+import bcrypt from "bcryptjs";
 
 export async function POST(request: Request) {
   let order: any = null;
@@ -20,7 +21,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { productId, customer } = validation.data;
+    const { productId, customer, createAccount, password } = validation.data;
 
     // Get product and price
     const product = await prisma.product.findUnique({
@@ -91,7 +92,7 @@ export async function POST(request: Request) {
       customerEmail: customer.email,
       customerName: customer.name,
       customerPhone: customer.phone,
-      description: `Panen Baik - ${product.name}`,
+      description: `Berkala - ${product.name}`,
     });
 
     // Wrap all post-Xendit DB writes in a transaction
@@ -126,6 +127,22 @@ export async function POST(request: Request) {
     } catch (emailError) {
       console.error("Failed to send confirmation email:", emailError);
       // Don't fail the checkout if email fails
+    }
+
+    // Best-effort account creation
+    if (createAccount && password) {
+      try {
+        const existing = await prisma.customer.findUnique({ where: { email: customer.email } });
+        if (existing && !existing.passwordHash) {
+          const passwordHash = await bcrypt.hash(password, 12);
+          await prisma.customer.update({
+            where: { email: customer.email },
+            data: { passwordHash, emailVerified: new Date() },
+          });
+        }
+      } catch (accountError) {
+        console.error("Failed to create account during checkout:", accountError);
+      }
     }
 
     return NextResponse.json({

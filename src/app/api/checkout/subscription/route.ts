@@ -3,6 +3,7 @@ import { NextResponse } from "next/server";
 import { createSubscriptionPlan } from "@/lib/xendit";
 import { sendSubscriptionCreated } from "@/lib/mock-email";
 import { SubscriptionCheckoutSchema } from "@/lib/validation";
+import bcrypt from "bcryptjs";
 
 const XENDIT_CUSTOMER_ID_RE = /^(cust-)?[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/;
 
@@ -22,7 +23,7 @@ export async function POST(request: Request) {
       );
     }
 
-    const { productId, frequency, customer } = validation.data;
+    const { productId, frequency, customer, createAccount, password } = validation.data;
 
     // Get product and price
     const product = await prisma.product.findUnique({
@@ -164,6 +165,22 @@ export async function POST(request: Request) {
     } catch (emailError) {
       console.error("Failed to send subscription email:", emailError);
       // Don't fail the checkout if email fails
+    }
+
+    // Best-effort account creation
+    if (createAccount && password) {
+      try {
+        const existing = await prisma.customer.findUnique({ where: { email: customer.email } });
+        if (existing && !existing.passwordHash) {
+          const passwordHash = await bcrypt.hash(password, 12);
+          await prisma.customer.update({
+            where: { email: customer.email },
+            data: { passwordHash, emailVerified: new Date() },
+          });
+        }
+      } catch (accountError) {
+        console.error("Failed to create account during checkout:", accountError);
+      }
     }
 
     // If status is REQUIRES_ACTION, redirect to authorization page

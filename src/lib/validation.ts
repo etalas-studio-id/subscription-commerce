@@ -13,12 +13,16 @@ export const CheckoutCustomerSchema = z.object({
 export const OneTimeCheckoutSchema = z.object({
   productId: z.string().min(1, "Product ID is required"),
   customer: CheckoutCustomerSchema,
+  createAccount: z.boolean().optional(),
+  password: z.string().min(8).optional(),
 });
 
 export const SubscriptionCheckoutSchema = z.object({
   productId: z.string().min(1, "Product ID is required"),
   frequency: z.enum(["DAILY", "WEEKLY", "MONTHLY", "YEARLY"]).optional().default("WEEKLY"),
   customer: CheckoutCustomerSchema,
+  createAccount: z.boolean().optional(),
+  password: z.string().min(8).optional(),
 });
 
 export const XenditWebhookSchema = z.object({

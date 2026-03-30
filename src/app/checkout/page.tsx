@@ -11,17 +11,21 @@ import {
   Shield,
   Loader2,
   Info,
+  User,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { Header } from "@/components/layout/Header";
 import { toast } from "sonner";
 import { CustomerDetails } from "@/components/checkout/CustomerForm";
 import { DeliveryAddress } from "@/components/checkout/DeliveryAddress";
 import { OrderSummary } from "@/components/checkout/OrderSummary";
 import { useI18n } from "@/lib/i18n-context";
+import { useSession } from "next-auth/react";
 
 interface Product {
   id: string;
@@ -67,6 +71,7 @@ function CheckoutForm() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { t } = useI18n();
+  const { data: session, status: sessionStatus } = useSession();
   const productId = searchParams.get("product");
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -86,6 +91,10 @@ function CheckoutForm() {
     postalCode: "",
     deliveryNotes: "",
   });
+
+  // Guest account creation
+  const [createAccount, setCreateAccount] = useState(false);
+  const [accountPassword, setAccountPassword] = useState("");
 
   useEffect(() => {
     Promise.all([
@@ -107,6 +116,36 @@ function CheckoutForm() {
     });
   }, [productId]);
 
+  // Autofill from saved profile when logged in
+  useEffect(() => {
+    if (session?.user?.id) {
+      fetch("/api/account/profile")
+        .then((r) => r.json())
+        .then((data) => {
+          if (data.profile) {
+            setForm((prev) => ({
+              ...prev,
+              name: data.profile.name || prev.name,
+              email: data.profile.email || prev.email,
+              phone: data.profile.phone || prev.phone,
+            }));
+          }
+          // Autofill most recent address
+          if (data.addresses?.length > 0) {
+            const addr = data.addresses[0];
+            setForm((prev) => ({
+              ...prev,
+              address: addr.address || prev.address,
+              city: addr.city || prev.city,
+              postalCode: addr.postalCode || prev.postalCode,
+              deliveryNotes: addr.deliveryNotes || prev.deliveryNotes,
+            }));
+          }
+        })
+        .catch(() => {});
+    }
+  }, [session?.user?.id]);
+
   const updateForm = (field: string, value: string) => {
     setForm((prev) => ({ ...prev, [field]: value }));
   };
@@ -117,7 +156,8 @@ function CheckoutForm() {
   // Validation checks for each section
   const customerDetailsComplete = form.name && form.email && form.phone && isEmailValid && isPhoneValid;
   const deliveryDetailsComplete = form.address && form.city && form.postalCode;
-  const isFormValid = customerDetailsComplete && deliveryDetailsComplete;
+  const accountValid = !createAccount || accountPassword.length >= 8;
+  const isFormValid = customerDetailsComplete && deliveryDetailsComplete && accountValid;
 
   const handleSubmit = async () => {
     if (!product || !isFormValid) return;
@@ -137,6 +177,7 @@ function CheckoutForm() {
           orderType,
           frequency: orderType === "SUBSCRIPTION" ? frequency : undefined,
           customer: form,
+          ...(createAccount && accountPassword ? { createAccount: true, password: accountPassword } : {}),
         }),
       });
 
@@ -172,6 +213,8 @@ function CheckoutForm() {
     );
   }
 
+  const isLoggedIn = !!session?.user;
+
   return (
     <div className="min-h-screen bg-[var(--background)] pb-32">
       <Header variant="checkout" />
@@ -203,6 +246,26 @@ function CheckoutForm() {
             </div>
           </CardContent>
         </Card>
+
+        {/* ─── Login prompt or logged-in banner ─────────────────────────── */}
+        {isLoggedIn ? (
+          <div className="flex items-center gap-2 p-3 rounded-xl bg-[var(--color-emerald-50)] border border-[var(--color-emerald-200)]">
+            <User className="h-4 w-4 text-[var(--primary)] shrink-0" />
+            <p className="text-xs text-[var(--color-emerald-800)]">
+              {t("auth.loggedInAs")} <span className="font-medium">{session.user?.name}</span>
+            </p>
+          </div>
+        ) : sessionStatus !== "loading" ? (
+          <div className="flex items-center gap-2 p-3 rounded-xl bg-[var(--color-stone-50)] border border-[var(--border)]">
+            <User className="h-4 w-4 text-[var(--muted-foreground)] shrink-0" />
+            <Link
+              href={`/login?callbackUrl=${encodeURIComponent(`/checkout?product=${productId}`)}`}
+              className="text-xs text-[var(--primary)] font-medium hover:underline"
+            >
+              {t("auth.loginToAutofill")}
+            </Link>
+          </div>
+        ) : null}
 
         {/* ─── Customer Details ──────────────────────────────────────────── */}
         {!customerDetailsComplete && (
@@ -319,6 +382,46 @@ function CheckoutForm() {
           frequencies={frequencies}
           formatPrice={formatPrice}
         />
+
+        {/* ─── Create Account (guest only) ─────────────────────────────── */}
+        {!isLoggedIn && sessionStatus !== "loading" && (
+          <Card>
+            <CardContent className="p-4">
+              <label className="flex items-start gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={createAccount}
+                  onChange={(e) => {
+                    setCreateAccount(e.target.checked);
+                    if (!e.target.checked) setAccountPassword("");
+                  }}
+                  className="mt-0.5 h-4 w-4 rounded border-[var(--border)] text-[var(--primary)] accent-[var(--primary)]"
+                />
+                <div>
+                  <div className="text-sm font-medium">{t("auth.createAccountWithOrder")}</div>
+                  <div className="text-xs text-[var(--muted-foreground)] mt-0.5">
+                    {t("auth.loginToAutofill")}
+                  </div>
+                </div>
+              </label>
+              {createAccount && (
+                <div className="mt-3 space-y-1.5">
+                  <Label htmlFor="account-password">{t("auth.setPassword")}</Label>
+                  <Input
+                    id="account-password"
+                    type="password"
+                    value={accountPassword}
+                    onChange={(e) => setAccountPassword(e.target.value)}
+                    placeholder="Min. 8 characters"
+                  />
+                  {accountPassword && accountPassword.length < 8 && (
+                    <p className="text-[10px] text-red-500">{t("auth.passwordTooShort")}</p>
+                  )}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
 
         {/* ─── Payment Info ──────────────────────────────────────────────── */}
         <div>
