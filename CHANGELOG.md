@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.1.0.1] - 2026-03-30
+
+### Fixed
+- **Admin login build error** — moved top-level env var check inside request handler so production builds succeed without admin credentials set at build time
+- **Support email** — updated `hello@panenbaik.id` → `hello@berkala.co` in EN and ID translations
+
 ## [0.1.0.0] - 2026-03-30
 
 ### Added
