@@ -1,17 +1,32 @@
 # Changelog
 
-## [0.1.1.0] - 2026-04-07
+## [0.2.1.0] - 2026-04-09
 
 ### Added
 - **ProBallFootball design theme** — navy + electric blue color palette replacing emerald/green; matches client branding exactly (`#1A529F` primary, `#3291F4` accent, `#080E1D` deep navy)
 - **Dark hero section** — homepage hero now uses deep navy background with white headline and bright blue accent span
 - **Onest typeface** — replaced Inter + DM Serif Display with single Onest font family (weights 300/400/500/700)
-- **Vitest + Testing Library** — bootstrapped test framework; 4 initial tests for `cn()` utility
 
 ### Changed
 - **Border radius** — reduced from 12px to 8px throughout (matches proball's 8-9px style)
 - **CSS variable namespace** — `--color-emerald-*` renamed to `--color-blue-*`; all component references updated
 - **Heading style** — `.heading-display` now uses bold weight Onest instead of serif font
+
+## [0.2.0.0] - 2026-04-09
+
+### Added
+- **Admin Users page** — `/admin/users` lists all customers with account type (Registered vs Guest), order count, join date, and phone
+- **User filter & search** — filter by All / Registered / Guest; search by name or email
+- **Edit user** — admin can update name, email, and phone for any customer via an inline modal
+- **Users API** — `GET /api/admin/users` returns all customers (passwordHash stripped, `isRegistered` flag added); `PATCH /api/admin/users` updates customer fields with auth guard and email-conflict handling
+- **Vitest test framework** — bootstrapped with `@testing-library/react`; 5 tests covering the Users page filter, search, and edit flows
+- **Local database setup** — PostgreSQL via Docker (`berkala-postgres` container) for local development
+
+### Changed
+- **Admin sidebar** — Users added as a nav item between Frequencies and Email Logs
+- **Admin login** — fixed authentication bug where dashboard checked localStorage but login only set the httpOnly cookie; now sets both
+- **Admin logout** — clears localStorage on sign out (previously only cleared the session cookie)
+- **API auth guard** — `/api/admin/users` endpoints require a valid admin JWT cookie; returns 401 if missing or expired
 
 ## [0.1.0.0] - 2026-03-30
 

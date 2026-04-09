@@ -8,6 +8,7 @@ import {
   DollarSign,
   RefreshCw,
   Mail,
+  Users,
   Leaf,
   Menu,
   X,
@@ -23,6 +24,7 @@ const navItems = [
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
   { href: "/admin/pricing", label: "Pricing", icon: DollarSign },
   { href: "/admin/frequencies", label: "Frequencies", icon: RefreshCw },
+  { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/emails", label: "Email Logs", icon: Mail },
 ];
 
@@ -37,6 +39,8 @@ export default function AdminLayout({
 
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" });
+    localStorage.removeItem("adminAuth");
+    localStorage.removeItem("adminUsername");
     router.push("/admin/login");
   };
 
