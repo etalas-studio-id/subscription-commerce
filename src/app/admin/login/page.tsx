@@ -29,6 +29,8 @@ export default function AdminLoginPage() {
 
       if (res.ok) {
         // JWT is set in httpOnly cookie by the API
+        localStorage.setItem("adminAuth", "true");
+        localStorage.setItem("adminUsername", username);
         router.push('/admin');
       } else {
         setError('Invalid username or password');
