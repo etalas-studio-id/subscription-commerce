@@ -65,29 +65,19 @@ export default function AdminDashboard() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check authentication
-    const auth = localStorage.getItem("adminAuth");
-    const user = localStorage.getItem("adminUsername");
-
-    if (!auth || auth !== "true") {
-      router.push("/admin/login");
-      return;
-    }
-
+    // Auth is handled by middleware via httpOnly cookie — no client-side check needed
     setIsAuthenticated(true);
-    setUsername(user || "");
 
     // Fetch dashboard data
     fetch("/api/dashboard")
       .then((r) => r.json())
       .then(setData)
       .finally(() => setLoading(false));
-  }, [router]);
+  }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminAuth");
-    localStorage.removeItem("adminUsername");
-    router.push("/admin/login");
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    window.location.href = "/admin/login";
   };
 
   if (!isAuthenticated) {
