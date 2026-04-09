@@ -60,15 +60,9 @@ function statusColor(status: string): string {
 export default function AdminDashboard() {
   const router = useRouter();
   const [data, setData] = useState<DashboardData | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Auth is handled by middleware via httpOnly cookie — no client-side check needed
-    setIsAuthenticated(true);
-
-    // Fetch dashboard data
     fetch("/api/dashboard")
       .then((r) => r.json())
       .then(setData)
@@ -79,10 +73,6 @@ export default function AdminDashboard() {
     await fetch("/api/admin/logout", { method: "POST" });
     window.location.href = "/admin/login";
   };
-
-  if (!isAuthenticated) {
-    return null;
-  }
 
   if (loading || !data) {
     return (
@@ -104,9 +94,6 @@ export default function AdminDashboard() {
             <h1 className="text-xl font-bold text-[var(--foreground)]">Berkala Admin</h1>
           </div>
           <div className="flex items-center gap-4">
-            <div className="text-xs text-[var(--muted-foreground)]">
-              Logged in as <span className="font-medium text-[var(--foreground)]">{username}</span>
-            </div>
             <Button
               variant="outline"
               size="sm"
