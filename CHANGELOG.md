@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.1.1] - 2026-04-12
+
+### Fixed
+- **Admin login redirect** — visiting `/admin/login` while already logged in now immediately redirects to `/admin` instead of staying on the login page. Prevents form flash by initializing redirect state synchronously.
+- **Session expiry loop** — expired JWT sessions no longer cause an infinite redirect loop between `/admin` and `/admin/login`. Middleware now signals expiry via `?expired=1` and the login page clears stale localStorage on receipt.
+
 ## [0.2.1.0] - 2026-04-09
 
 ### Added
