@@ -1,21 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import { Leaf, LogIn, AlertCircle } from 'lucide-react';
+import { Leaf, LogIn, AlertCircle, Loader2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 
-export default function AdminLoginPage() {
+function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const isExpired = searchParams.get("expired") === "1";
+  const isExpired = searchParams.get('expired') === '1';
 
-  // Synchronously initialize — avoids flash if already authenticated
+  // Synchronously initialize, avoids flash if already authenticated
   const [redirecting, setRedirecting] = useState(
-    () => !isExpired && typeof window !== 'undefined' && localStorage.getItem("adminAuth") === "true"
+    () => !isExpired && typeof window !== 'undefined' && localStorage.getItem('adminAuth') === 'true'
   );
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -25,13 +25,13 @@ export default function AdminLoginPage() {
   useEffect(() => {
     // Clear stale localStorage when redirected back due to expired/invalid session
     if (isExpired) {
-      localStorage.removeItem("adminAuth");
-      localStorage.removeItem("adminUsername");
+      localStorage.removeItem('adminAuth');
+      localStorage.removeItem('adminUsername');
       return;
     }
-    if (localStorage.getItem("adminAuth") === "true") {
+    if (localStorage.getItem('adminAuth') === 'true') {
       setRedirecting(true);
-      router.push("/admin");
+      router.push('/admin');
     }
   }, [router, isExpired]);
 
@@ -66,7 +66,6 @@ export default function AdminLoginPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-[var(--color-emerald-50)] via-white to-[var(--color-emerald-100)] flex items-center justify-center p-5">
       <div className="w-full max-w-md">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Leaf className="h-6 w-6 text-[var(--primary)]" />
@@ -78,11 +77,9 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        {/* Login Card */}
         <Card className="border-[var(--border)]">
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Error message */}
               {error && (
                 <div className="flex items-start gap-3 p-3 rounded-lg bg-red-50 border border-red-200">
                   <AlertCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
@@ -90,7 +87,6 @@ export default function AdminLoginPage() {
                 </div>
               )}
 
-              {/* Username field */}
               <div>
                 <Label htmlFor="username" className="text-xs font-medium mb-1.5 block">
                   Username
@@ -107,7 +103,6 @@ export default function AdminLoginPage() {
                 />
               </div>
 
-              {/* Password field */}
               <div>
                 <Label htmlFor="password" className="text-xs font-medium mb-1.5 block">
                   Password
@@ -123,7 +118,6 @@ export default function AdminLoginPage() {
                 />
               </div>
 
-              {/* Submit button */}
               <Button
                 type="submit"
                 disabled={loading || !username || !password}
@@ -136,11 +130,24 @@ export default function AdminLoginPage() {
           </CardContent>
         </Card>
 
-        {/* Footer */}
         <p className="text-center text-xs text-[var(--muted-foreground)] mt-6">
           © 2024 Berkala. Admin Panel.
         </p>
       </div>
     </div>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-br from-[var(--color-emerald-50)] via-white to-[var(--color-emerald-100)] flex items-center justify-center">
+          <Loader2 className="h-6 w-6 animate-spin text-[var(--primary)]" />
+        </div>
+      }
+    >
+      <AdminLoginForm />
+    </Suspense>
   );
 }
