@@ -25,7 +25,7 @@ export async function middleware(request: NextRequest) {
       return NextResponse.next();
     } catch (error) {
       console.warn("Invalid admin token:", error);
-      return NextResponse.redirect(new URL("/admin/login", request.url));
+      return NextResponse.redirect(new URL("/admin/login?expired=1", request.url));
     }
   }
 

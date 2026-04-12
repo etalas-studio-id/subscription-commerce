@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { Leaf, LogIn, AlertCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -10,10 +10,30 @@ import { Card, CardContent } from '@/components/ui/card';
 
 export default function AdminLoginPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isExpired = searchParams.get("expired") === "1";
+
+  // Synchronously initialize — avoids flash if already authenticated
+  const [redirecting, setRedirecting] = useState(
+    () => !isExpired && typeof window !== 'undefined' && localStorage.getItem("adminAuth") === "true"
+  );
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  useEffect(() => {
+    // Clear stale localStorage when redirected back due to expired/invalid session
+    if (isExpired) {
+      localStorage.removeItem("adminAuth");
+      localStorage.removeItem("adminUsername");
+      return;
+    }
+    if (localStorage.getItem("adminAuth") === "true") {
+      setRedirecting(true);
+      router.push("/admin");
+    }
+  }, [router, isExpired]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,6 +60,8 @@ export default function AdminLoginPage() {
       setLoading(false);
     }
   };
+
+  if (redirecting) return null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-[var(--color-emerald-50)] via-white to-[var(--color-emerald-100)] flex items-center justify-center p-5">
