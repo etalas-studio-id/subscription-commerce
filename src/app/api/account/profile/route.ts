@@ -15,8 +15,16 @@ export async function GET() {
       addresses: { orderBy: { createdAt: "desc" } },
       orders: {
         orderBy: { createdAt: "desc" },
-        take: 10,
-        include: { product: true },
+        take: 20,
+        include: {
+          product: true,
+          subscription: { select: { status: true, nextChargeDate: true } },
+          payments: {
+            orderBy: { createdAt: "desc" },
+            take: 5,
+            select: { amount: true, status: true, paymentMethod: true, createdAt: true },
+          },
+        },
       },
     },
   });
@@ -42,6 +50,8 @@ export async function GET() {
       amount: o.amount,
       status: o.orderStatus,
       createdAt: o.createdAt,
+      subscription: o.subscription ?? null,
+      payments: o.payments,
     })),
   });
 }

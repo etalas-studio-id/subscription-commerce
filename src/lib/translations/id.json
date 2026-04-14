@@ -184,7 +184,15 @@
     "noOrders": "Belum ada pendaftaran",
     "orderDate": "Tanggal",
     "orderStatus": "Status",
-    "orderAmount": "Jumlah"
+    "orderAmount": "Jumlah",
+    "editProfile": "Edit Profil",
+    "editAddress": "Edit Alamat",
+    "transactions": "Riwayat Transaksi",
+    "recurring": "Langganan",
+    "oneTime": "Pembelian Sekali",
+    "noSubscriptions": "Belum ada langganan",
+    "noOneTime": "Belum ada pembelian sekali",
+    "nextCharge": "Tagihan berikutnya"
   },
   "footer": {
     "products": "Paket",

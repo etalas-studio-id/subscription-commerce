@@ -184,7 +184,15 @@
     "noOrders": "No registrations yet",
     "orderDate": "Date",
     "orderStatus": "Status",
-    "orderAmount": "Amount"
+    "orderAmount": "Amount",
+    "editProfile": "Edit Profile",
+    "editAddress": "Edit Address",
+    "transactions": "Transaction History",
+    "recurring": "Subscriptions",
+    "oneTime": "One-time Purchases",
+    "noSubscriptions": "No subscriptions yet",
+    "noOneTime": "No one-time purchases yet",
+    "nextCharge": "Next charge"
   },
   "footer": {
     "products": "Plans",

@@ -50,6 +50,46 @@ export async function POST(request: Request) {
   return NextResponse.json(address, { status: 201 });
 }
 
+const UpdateAddressSchema = z.object({
+  id: z.string().min(1),
+  address: z.string().min(1).optional(),
+  city: z.string().min(1).optional(),
+  postalCode: z.string().min(1).optional(),
+  deliveryNotes: z.string().optional(),
+});
+
+export async function PATCH(request: Request) {
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+
+  const body = await request.json();
+  const validation = UpdateAddressSchema.safeParse(body);
+  if (!validation.success) {
+    return NextResponse.json(
+      { error: validation.error.errors[0].message },
+      { status: 400 }
+    );
+  }
+
+  const { id, ...fields } = validation.data;
+
+  const existing = await prisma.address.findFirst({
+    where: { id, customerId: session.user.id },
+  });
+  if (!existing) {
+    return NextResponse.json({ error: "Not found" }, { status: 404 });
+  }
+
+  const updated = await prisma.address.update({
+    where: { id },
+    data: fields,
+  });
+
+  return NextResponse.json(updated);
+}
+
 export async function DELETE(request: NextRequest) {
   const session = await auth();
   if (!session?.user?.id) {
