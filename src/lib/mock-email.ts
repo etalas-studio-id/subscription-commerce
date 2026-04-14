@@ -44,7 +44,7 @@ export async function sendOrderConfirmation(params: {
 }) {
   await sendEmail({
     recipient: params.email,
-    subject: `Berkala — Order Confirmation #${params.orderId.slice(-6).toUpperCase()}`,
+    subject: `ProBall Football — Order Confirmation #${params.orderId.slice(-6).toUpperCase()}`,
     type: "ORDER_CONFIRMATION",
     body: {
       customerName: params.name,
@@ -67,7 +67,7 @@ export async function sendSubscriptionCreated(params: {
 }) {
   await sendEmail({
     recipient: params.email,
-    subject: `Berkala — Subscription Activated`,
+    subject: `ProBall Football — Subscription Activated`,
     type: "SUBSCRIPTION_CREATED",
     body: {
       customerName: params.name,
@@ -75,7 +75,7 @@ export async function sendSubscriptionCreated(params: {
       product: params.productName,
       amount: params.amount,
       frequency: params.frequency,
-      message: `Welcome to Berkala ${params.frequency.toLowerCase()} subscription! Your ${params.productName} will be delivered on a ${params.frequency.toLowerCase()} basis.`,
+      message: `Welcome to ProBall Football ${params.frequency.toLowerCase()} subscription! Your ${params.productName} will be delivered on a ${params.frequency.toLowerCase()} basis.`,
     },
   });
 }
@@ -88,7 +88,7 @@ export async function sendPaymentFailed(params: {
 }) {
   await sendEmail({
     recipient: params.email,
-    subject: `Berkala — Payment Update Required`,
+    subject: `ProBall Football — Payment Update Required`,
     type: "PAYMENT_FAILED",
     body: {
       customerName: params.name,

@@ -1,6 +1,6 @@
 'use client';
 
-import { Truck, RefreshCw, Shield, Leaf, Check, Star } from "lucide-react";
+import { Users, Shield, Trophy, GraduationCap, RefreshCw, Check, Star } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { useI18n } from "@/lib/i18n-context";
 
@@ -12,9 +12,9 @@ export function TrustBar() {
       <div className="max-w-6xl mx-auto px-5 py-5">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { icon: Leaf, key: "trust.organic" },
-            { icon: Truck, key: "trust.delivery" },
-            { icon: RefreshCw, key: "trust.schedule" },
+            { icon: Trophy, key: "trust.organic" },
+            { icon: Users, key: "trust.delivery" },
+            { icon: GraduationCap, key: "trust.schedule" },
             { icon: Shield, key: "trust.payment" },
           ].map(({ icon: Icon, key }) => (
             <div key={key} className="flex items-center gap-2.5 justify-center">

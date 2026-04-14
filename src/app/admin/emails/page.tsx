@@ -42,9 +42,10 @@ export default function EmailLogsPage() {
     fetch("/api/emails")
       .then((r) => r.json())
       .then((data) => {
-        setLogs(data);
+        setLogs(Array.isArray(data) ? data : []);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   function formatDate(date: string): string {

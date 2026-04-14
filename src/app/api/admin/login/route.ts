@@ -1,15 +1,17 @@
 import { NextResponse } from "next/server";
 import { SignJWT } from "jose";
 
-const JWT_SECRET = process.env.JWT_SECRET || "";
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "";
-const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
-
-if (!JWT_SECRET || !ADMIN_USERNAME || !ADMIN_PASSWORD) {
-  throw new Error("Missing required environment variables for admin auth");
-}
-
 export async function POST(request: Request) {
+  const JWT_SECRET = process.env.JWT_SECRET || "";
+  const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "";
+  const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD || "";
+
+  if (!JWT_SECRET || !ADMIN_USERNAME || !ADMIN_PASSWORD) {
+    return NextResponse.json(
+      { error: "Server configuration error" },
+      { status: 500 }
+    );
+  }
   try {
     const { username, password } = await request.json();
 
