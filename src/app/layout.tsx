@@ -12,7 +12,7 @@ const onest = Onest({
 });
 
 export const metadata: Metadata = {
-  title: "Berkala - Toko Langganan",
+  title: "ProBall Football — Akademi Sepak Bola Jakarta",
   description:
     "Sayuran segar berkualitas premium dikirim ke pintu Anda. Berlangganan pengiriman mingguan, bulanan, atau sekali jadi dari sayuran dan buah organik pilihan.",
 };

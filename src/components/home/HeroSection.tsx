@@ -37,7 +37,7 @@ export function HeroSection() {
               <Button
                 variant="outline"
                 size="lg"
-                className="w-full sm:w-auto rounded-full text-sm px-8 h-12 font-medium border-white/30 text-white hover:bg-white/10 hover:text-white"
+                className="w-full sm:w-auto rounded-full text-sm px-8 h-12 font-medium border-white/30 bg-transparent text-white hover:bg-white/10 hover:text-white"
               >
                 {t('hero.learnMore')}
               </Button>

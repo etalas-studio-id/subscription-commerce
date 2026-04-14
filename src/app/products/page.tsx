@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { Leaf, Check, ArrowRight, ChevronLeft, AlertCircle } from "lucide-react";
+import Image from "next/image";
+import { Check, ArrowRight, ChevronLeft, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -52,7 +53,7 @@ export default function ProductsPage() {
   const selectedProduct = products.find((p) => p.id === selectedId);
 
   return (
-    <div className="min-h-screen bg-[var(--background)] pb-28">
+    <div className={`min-h-screen bg-[var(--background)] ${selectedId ? "pb-28" : "pb-56"}`}>
       {/* Header */}
       <header className="sticky top-0 z-50 bg-white/80 backdrop-blur-md border-b border-[var(--border)]">
         <div className="max-w-2xl mx-auto px-4 h-14 flex items-center gap-3">
@@ -60,7 +61,7 @@ export default function ProductsPage() {
             <ChevronLeft className="h-5 w-5" />
           </Link>
           <div className="flex items-center gap-2">
-            <Leaf className="h-5 w-5 text-[var(--primary)]" />
+            <Image src="/proball-logo.png" alt="ProBall Football" width={24} height={24} className="rounded-sm" />
             <span className="font-semibold text-sm">{t('products.pageTitle')}</span>
           </div>
         </div>
@@ -96,8 +97,8 @@ export default function ProductsPage() {
                   <CardContent className="p-4">
                     <div className="flex gap-4">
                       {/* Image placeholder */}
-                      <div className="w-20 h-20 shrink-0 bg-gradient-to-br from-[var(--color-emerald-50)] to-[var(--color-emerald-100)] rounded-xl flex items-center justify-center">
-                        <Leaf className="h-8 w-8 text-[var(--primary)] opacity-40" />
+                      <div className="w-20 h-20 shrink-0 bg-gradient-to-br from-[var(--color-blue-50)] to-[var(--color-blue-100)] rounded-xl flex items-center justify-center">
+                        <Image src="/proball-logo.png" alt="ProBall Football" width={40} height={40} className="rounded opacity-70" />
                       </div>
                       {/* Content */}
                       <div className="flex-1 min-w-0">

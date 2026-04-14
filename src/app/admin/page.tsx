@@ -3,7 +3,8 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import { ShoppingCart, RefreshCw, DollarSign, AlertTriangle, LogOut, Leaf } from "lucide-react";
+import Image from "next/image";
+import { ShoppingCart, RefreshCw, DollarSign, AlertTriangle, LogOut } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -110,8 +111,8 @@ export default function AdminDashboard() {
       <header className="bg-white border-b border-[var(--border)]">
         <div className="max-w-5xl mx-auto px-5 py-4 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Leaf className="h-6 w-6 text-[var(--primary)]" />
-            <h1 className="text-xl font-bold text-[var(--foreground)]">Berkala Admin</h1>
+            <Image src="/proball-logo.png" alt="ProBall Football" width={32} height={32} className="rounded" />
+            <h1 className="text-xl font-bold text-[var(--foreground)]">ProBall Football</h1>
           </div>
           <div className="flex items-center gap-4">
             <div className="text-xs text-[var(--muted-foreground)]">
@@ -154,7 +155,7 @@ export default function AdminDashboard() {
             value: data.kpis.activeSubscriptions,
             icon: RefreshCw,
             color: "text-[var(--primary)]",
-            bg: "bg-[var(--color-emerald-50)]",
+            bg: "bg-[var(--color-blue-50)]",
           },
           {
             label: "Total Revenue",

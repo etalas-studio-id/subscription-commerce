@@ -1,52 +1,52 @@
 {
   "site": {
-    "title": "Berkala - Fresh Produce Subscription",
-    "description": "Premium fresh produce delivered to your door. Subscribe to weekly, monthly, or one-time deliveries of organic vegetables and fruits."
+    "title": "ProBall Football — Football Academy Jakarta",
+    "description": "ProBall Football Academy in Jakarta. 700+ members. Professional coaching for ages 5–16. Subscribe monthly for weekly training sessions."
   },
   "header": {
     "checkout": "Checkout",
     "admin": "Admin",
-    "orderNow": "Order Now"
+    "orderNow": "Join Now"
   },
   "hero": {
-    "label": "Subscribe to Fresh Produce from Local Farms",
-    "headline1": "Eat fresh,",
-    "headline2": "live well.",
-    "body": "Curated organic vegetables from local farms delivered to your doorstep. Subscribe once, enjoy fresh produce on your schedule.",
-    "cta": "Start Your Order",
+    "label": "Jakarta's Leading Football Academy Since 2019",
+    "headline1": "Train hard,",
+    "headline2": "play great.",
+    "body": "ProBall Football Academy — dedicated to helping players of all levels achieve their goals. Join 700+ members training across Jakarta.",
+    "cta": "Get Free Trial",
     "learnMore": "Learn More"
   },
   "trust": {
-    "organic": "100% Organic",
-    "delivery": "Free Delivery",
-    "schedule": "Flexible Schedule",
-    "payment": "Secure Payment"
+    "organic": "Est. 2019",
+    "delivery": "700+ Members",
+    "schedule": "Ages 5–16",
+    "payment": "Certified Coaches"
   },
   "howItWorks": {
-    "label": "Simple & convenient",
+    "label": "Simple & proven",
     "heading": "How it works",
-    "step1Title": "Choose Your Box",
-    "step1Desc": "Pick from our curated selection of organic harvest boxes sized for your household.",
-    "step2Title": "Set Your Schedule",
-    "step2Desc": "Order once or subscribe for automatic deliveries — weekly, monthly, or your preference.",
-    "step3Title": "Enjoy Fresh Produce",
-    "step3Desc": "We deliver farm-fresh vegetables to your door. Cancel or pause anytime."
+    "step1Title": "Try a Free Session",
+    "step1Desc": "Begin with a free trial session to experience the ProBall Method firsthand.",
+    "step2Title": "Choose Your Plan",
+    "step2Desc": "Select your preferred location and weekly schedule. Commit at the start of each month.",
+    "step3Title": "Train & Improve",
+    "step3Desc": "Train weekly with certified coaches. Miss a session? Join any ProBall location as a makeup."
   },
   "orderTypes": {
     "label": "Flexible options",
-    "heading": "One-time or subscription",
-    "oneTimeTitle": "One-Time Order",
-    "oneTimeDesc": "Try our harvest box without commitment. Perfect for first-time customers.",
+    "heading": "Trial session or monthly membership",
+    "oneTimeTitle": "Trial Session",
+    "oneTimeDesc": "Try a single session with no commitment. Perfect for first-time players.",
     "oneTimeBenefit1": "No commitment required",
-    "oneTimeBenefit2": "Multiple payment options",
-    "oneTimeBenefit3": "Standard delivery",
+    "oneTimeBenefit2": "Experience the ProBall Method",
+    "oneTimeBenefit3": "Multiple locations available",
     "recommended": "Recommended",
-    "subscriptionTitle": "Subscription",
-    "subscriptionDesc": "Set it and forget it. Fresh produce delivered automatically on your preferred schedule.",
-    "subscriptionBenefit1": "Automatic recurring delivery",
-    "subscriptionBenefit2": "Never run out of fresh produce",
+    "subscriptionTitle": "Monthly Membership",
+    "subscriptionDesc": "Train every week with full access to makeup sessions at any ProBall location.",
+    "subscriptionBenefit1": "Weekly training sessions",
+    "subscriptionBenefit2": "Makeup session at any location",
     "subscriptionBenefit3": "Pause or cancel anytime",
-    "subscriptionBenefit4": "Priority delivery slot"
+    "subscriptionBenefit4": "Special multi-session discounts"
   },
   "paymentTrust": {
     "label": "Secure & trustworthy",
@@ -62,18 +62,18 @@
     "note": "All payments are processed securely through Xendit, Indonesia's leading payment platform. Your data is encrypted and protected."
   },
   "products": {
-    "pageTitle": "Select a Product",
-    "loading": "Loading products...",
+    "pageTitle": "Select a Training Plan",
+    "loading": "Loading plans...",
     "mostPopular": "Most Popular",
-    "selectAlert": "Please select a product first",
-    "selectAlertDesc": "Click any product above to continue to checkout",
-    "noProduct": "No product selected",
+    "selectAlert": "Please select a plan first",
+    "selectAlertDesc": "Click any plan above to continue to checkout",
+    "noProduct": "No plan selected",
     "continueBtn": "Continue to Checkout"
   },
   "home": {
-    "sectionLabel": "Our harvest boxes",
-    "sectionHeading": "Choose your perfect box",
-    "browseAll": "Browse All Products",
+    "sectionLabel": "Our training plans",
+    "sectionHeading": "Choose your perfect plan",
+    "browseAll": "Browse All Plans",
     "starter": "Starter",
     "mostPopularBanner": "Most Popular",
     "bestValue": "Best Value"
@@ -83,33 +83,33 @@
     "fullName": "Full Name",
     "email": "Email",
     "phone": "Phone",
-    "deliveryDetails": "Delivery Details",
+    "deliveryDetails": "Registration Details",
     "address": "Address",
     "city": "City",
     "postalCode": "Postal Code",
-    "deliveryNotes": "Delivery Notes",
+    "deliveryNotes": "Additional Notes",
     "deliveryNotesOptional": "(optional)",
-    "deliveryNotesPlaceholder": "Leave at front gate, etc.",
+    "deliveryNotesPlaceholder": "Child's age, preferred location, etc.",
     "orderType": "Order Type",
-    "oneTime": "One-Time Order",
-    "oneTimeDesc": "Single delivery, no commitment",
-    "subscription": "Subscribe & Save",
-    "subscriptionDesc": "Automatic recurring delivery",
+    "oneTime": "Trial Session",
+    "oneTimeDesc": "Single session, no commitment",
+    "subscription": "Monthly Membership",
+    "subscriptionDesc": "Automatic monthly billing",
     "recommended": "Recommended",
-    "frequency": "Delivery Frequency",
+    "frequency": "Training Frequency",
     "paymentMethod": "Payment Methods",
     "paymentNote": "You'll select your payment method on Xendit's secure payment page. No selection needed here.",
     "securedBy": "Secured by Xendit • 256-bit encryption",
-    "placeOrder": "Place Order",
+    "placeOrder": "Register Now",
     "continuePayment": "Continue to Payment Authorization",
     "processing": "Processing...",
     "stepSelect": "1. Select",
-    "stepCheckout": "2. Checkout",
+    "stepCheckout": "2. Details",
     "stepPay": "3. Pay",
-    "subscriptionLabel": "Subscription",
-    "oneTimeLabel": "One-Time Order",
+    "subscriptionLabel": "Membership",
+    "oneTimeLabel": "Trial Session",
     "validationDetails": "Please complete all your details (name, valid email, and valid phone number)",
-    "validationAddress": "Please complete your delivery address (street, city, and postal code)"
+    "validationAddress": "Please complete your registration details (address, city, and postal code)"
   },
   "validation": {
     "invalidEmail": "Enter a valid email address",
@@ -117,22 +117,22 @@
   },
   "orderSummary": {
     "title": "Order Summary",
-    "delivery": "Delivery",
+    "delivery": "Registration Fee",
     "free": "Free",
     "frequency": "Frequency",
     "total": "Total",
     "billed": "Billed"
   },
   "paymentSuccess": {
-    "heading": "Order Confirmed!",
-    "body": "Thank you for your order. Your fresh harvest is being prepared and will be on its way soon.",
+    "heading": "Registration Confirmed!",
+    "body": "Thank you for joining ProBall Football. Your training schedule is set and you'll hear from us soon.",
     "whatsNext": "What's Next",
-    "step1Title": "We're preparing your order",
-    "step1Desc": "Your harvest box will be packed with the freshest produce",
+    "step1Title": "We're preparing your slot",
+    "step1Desc": "Your training schedule will be confirmed by our team",
     "step2Title": "Check your email",
-    "step2Desc": "A confirmation email with order details has been sent",
+    "step2Desc": "A confirmation email with registration details has been sent",
     "step3Title": "Need help?",
-    "step3Desc": "Contact us at hello@panenbaik.id",
+    "step3Desc": "Contact us at info@proballfootball.com",
     "backHome": "Back to Home",
     "adminDashboard": "View Admin Dashboard"
   },
@@ -143,7 +143,7 @@
     "step1Title": "Try again",
     "step1Desc": "Check your payment details and try a different payment method",
     "step2Title": "Contact support",
-    "step2Desc": "Reach out to hello@panenbaik.id for assistance",
+    "step2Desc": "Reach out to info@proballfootball.com for assistance",
     "tryAgain": "Try Again",
     "backHome": "Back to Home"
   },
@@ -174,22 +174,22 @@
     "title": "My Account",
     "profile": "Profile",
     "addresses": "Saved Addresses",
-    "orders": "Order History",
+    "orders": "Registration History",
     "saveChanges": "Save Changes",
     "saved": "Changes saved",
     "addAddress": "Add Address",
     "deleteAddress": "Delete",
     "setDefault": "Set as Default",
     "noAddresses": "No saved addresses yet",
-    "noOrders": "No orders yet",
-    "orderDate": "Order Date",
+    "noOrders": "No registrations yet",
+    "orderDate": "Date",
     "orderStatus": "Status",
     "orderAmount": "Amount"
   },
   "footer": {
-    "products": "Products",
+    "products": "Plans",
     "checkout": "Checkout",
     "admin": "Admin",
-    "copyright": "© 2024 Berkala. Prototype."
+    "copyright": "© 2026 ProBall Football."
   }
 }
