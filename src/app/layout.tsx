@@ -12,9 +12,14 @@ const onest = Onest({
 });
 
 export const metadata: Metadata = {
-  title: "ProBall Football — Akademi Sepak Bola Jakarta",
+  title: "ProBall Football | Akademi Sepak Bola Jakarta",
   description:
-    "Sayuran segar berkualitas premium dikirim ke pintu Anda. Berlangganan pengiriman mingguan, bulanan, atau sekali jadi dari sayuran dan buah organik pilihan.",
+    "Bergabung dengan ProBall Football Academy dan tingkatkan kemampuan sepak bola Anda. Daftar program latihan bulanan, mingguan, atau intensif bersama pelatih profesional.",
+  openGraph: {
+    title: "ProBall Football | Akademi Sepak Bola Jakarta",
+    description:
+      "Bergabung dengan ProBall Football Academy dan tingkatkan kemampuan sepak bola Anda. Daftar program latihan bulanan, mingguan, atau intensif bersama pelatih profesional.",
+  },
 };
 
 export default function RootLayout({

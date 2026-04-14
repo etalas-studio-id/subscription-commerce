@@ -1,30 +1,5 @@
 # Changelog
 
-## [0.2.1.2] - 2026-04-14
-
-### Fixed
-- **Checkout autofill** — logged-in users now see their name and email pre-filled immediately on the checkout details form. Previously, autofill relied solely on the `/api/account/profile` API call; if that call failed or returned empty, the form stayed blank. Now name and email are filled directly from the NextAuth session JWT (always available when logged in), with the API call still used to fill phone number and saved address.
-
-### Changed
-- **Turbopack config** — added `turbopack.root` to `next.config.ts` to prevent workspace root inference errors when the project path contains spaces (Conductor workspace layout).
-## [0.2.2.0] - 2026-04-14
-
-### Added
-- **Admin product management** — admins can now create new products (name, description, base price, compare price, tags) and delete products directly from the Products admin page
-- **Delete guard** — attempting to delete a product with existing orders returns a 409 error with a clear message; products with no orders are hard-deleted cleanly
-- **POST/DELETE `/api/products`** — new endpoints for product creation (Prisma transaction: Product + PriceConfig) and deletion (order count check + cascading delete)
-
-### Changed
-- **Admin nav "Pricing" → "Products"** — renamed to reflect full product management scope; updated icon from DollarSign to Package
-- **ProBall Football branding** — replaced all remaining Berkala/Panen Baik copy, logos, and colors across homepage, admin, login, register, payment pages
-- **Homepage translations** — full EN/ID copy rewrite for ProBall Football Academy (hero, trust bar, features, footer)
-- **Customer products page** — dynamic bottom padding prevents sticky checkout bar from obscuring the last product card
-- **Google OAuth conditional** — provider only loaded when `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set, preventing auth errors in environments without Google OAuth configured
-
-### Fixed
-- **`"use client"` directive ordering** — fixed in login, register, payment pages where Image import was accidentally prepended before the directive
-- **NextAuth `AUTH_SECRET`** — documented requirement; auth no longer throws on missing secret
-
 ## [0.2.1.1] - 2026-04-12
 
 ### Fixed
