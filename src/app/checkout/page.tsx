@@ -361,7 +361,7 @@ function CheckoutForm() {
                     {t('checkout.frequency')}
                   </div>
                   <div className="grid grid-cols-2 gap-2">
-                    {frequencies.map((freq) => (
+                    {frequencies.filter((freq) => freq.frequency !== "ONE_TIME").map((freq) => (
                       <button
                         key={freq.frequency}
                         className={`p-3 rounded-xl border text-left transition-all ${

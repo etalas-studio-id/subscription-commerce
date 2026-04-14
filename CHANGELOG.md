@@ -1,5 +1,11 @@
 # Changelog
 
+## [0.2.1.2] - 2026-04-14
+
+### Changed
+- **Payment copy** — Order Type labels now explicitly state "One-time Payment" and "Subscription Payment" (EN) / "Pembayaran Sekali" and "Pembayaran Berlangganan" (ID), with descriptions focused on payment nature rather than delivery.
+- **Subscription frequency** — When One-Time is enabled in the admin dashboard, it no longer appears in the subscription frequency grid — only in the first Order Type selection where it belongs.
+
 ## [0.2.1.1] - 2026-04-12
 
 ### Fixed
