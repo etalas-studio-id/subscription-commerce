@@ -116,7 +116,18 @@ function CheckoutForm() {
     });
   }, [productId]);
 
-  // Autofill from saved profile when logged in
+  // Autofill name + email immediately from session JWT (always available when logged in)
+  useEffect(() => {
+    if (session?.user?.name || session?.user?.email) {
+      setForm((prev) => ({
+        ...prev,
+        name: session.user?.name || prev.name,
+        email: session.user?.email || prev.email,
+      }));
+    }
+  }, [session?.user?.name, session?.user?.email]);
+
+  // Autofill phone + address from saved profile in database
   useEffect(() => {
     if (session?.user?.id) {
       fetch("/api/account/profile")

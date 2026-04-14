@@ -9,31 +9,31 @@ async function main() {
   const products = await Promise.all([
     prisma.product.create({
       data: {
-        id: "prod_veggie_small",
-        name: "Veggie Box Small",
-        description: "5 packs of seasonal vegetables, perfect for 1-2 people. Curated from local organic farms.",
-        image: "/images/veggie-small.jpg",
-        tags: "vegetables,small,organic,1-2 people",
+        id: "prod_proball_basic",
+        name: "Basic Plan",
+        description: "Train once a week with certified coaches. Perfect for beginners ages 5–16.",
+        image: "/images/proball-basic.jpg",
+        tags: "football,basic,beginner,1x per week",
         active: true,
       },
     }),
     prisma.product.create({
       data: {
-        id: "prod_veggie_medium",
-        name: "Veggie Box Medium",
-        description: "10 packs of seasonal vegetables with premium greens. Ideal for a family of 3-4.",
-        image: "/images/veggie-medium.jpg",
-        tags: "vegetables,medium,organic,3-4 people,popular",
+        id: "prod_proball_premium",
+        name: "Premium Plan",
+        description: "Train twice a week for accelerated skill development. Ideal for dedicated players.",
+        image: "/images/proball-premium.jpg",
+        tags: "football,premium,intermediate,2x per week,popular",
         active: true,
       },
     }),
     prisma.product.create({
       data: {
-        id: "prod_veggie_family",
-        name: "Veggie Box Family",
-        description: "20 packs of premium seasonal vegetables, fruits mix & specialty greens. Feeds a family of 5+.",
-        image: "/images/veggie-family.jpg",
-        tags: "vegetables,family,organic,5+ people,best value",
+        id: "prod_proball_elite",
+        name: "Elite Plan",
+        description: "Maximum training frequency for serious players. Train three times a week with elite coaches.",
+        image: "/images/proball-elite.jpg",
+        tags: "football,elite,advanced,3x per week,best value",
         active: true,
       },
     }),
@@ -43,25 +43,25 @@ async function main() {
   await Promise.all([
     prisma.priceConfig.create({
       data: {
-        productId: "prod_veggie_small",
-        basePrice: 99000,
-        comparePrice: 129000,
+        productId: "prod_proball_basic",
+        basePrice: 700000,
+        comparePrice: 800000,
         active: true,
       },
     }),
     prisma.priceConfig.create({
       data: {
-        productId: "prod_veggie_medium",
-        basePrice: 179000,
-        comparePrice: 229000,
+        productId: "prod_proball_premium",
+        basePrice: 1200000,
+        comparePrice: 1400000,
         active: true,
       },
     }),
     prisma.priceConfig.create({
       data: {
-        productId: "prod_veggie_family",
-        basePrice: 299000,
-        comparePrice: 379000,
+        productId: "prod_proball_elite",
+        basePrice: 1600000,
+        comparePrice: 2100000,
         active: true,
       },
     }),
@@ -207,7 +207,7 @@ async function main() {
       data: {
         id: "order_1",
         customerId: "cust_1",
-        productId: "prod_veggie_small",
+        productId: "prod_proball_basic",
         addressId: "addr_1",
         orderType: "ONE_TIME",
         amount: 99000,
@@ -218,7 +218,7 @@ async function main() {
       data: {
         id: "order_2",
         customerId: "cust_1",
-        productId: "prod_veggie_medium",
+        productId: "prod_proball_premium",
         addressId: "addr_1",
         orderType: "SUBSCRIPTION",
         frequency: "WEEKLY",
@@ -230,7 +230,7 @@ async function main() {
       data: {
         id: "order_3",
         customerId: "cust_2",
-        productId: "prod_veggie_family",
+        productId: "prod_proball_elite",
         addressId: "addr_2",
         orderType: "ONE_TIME",
         amount: 299000,
@@ -241,7 +241,7 @@ async function main() {
       data: {
         id: "order_4",
         customerId: "cust_2",
-        productId: "prod_veggie_small",
+        productId: "prod_proball_basic",
         addressId: "addr_2",
         orderType: "SUBSCRIPTION",
         frequency: "MONTHLY",
@@ -253,7 +253,7 @@ async function main() {
       data: {
         id: "order_5",
         customerId: "cust_3",
-        productId: "prod_veggie_medium",
+        productId: "prod_proball_premium",
         addressId: "addr_3",
         orderType: "ONE_TIME",
         amount: 179000,
@@ -264,7 +264,7 @@ async function main() {
       data: {
         id: "order_6",
         customerId: "cust_3",
-        productId: "prod_veggie_family",
+        productId: "prod_proball_elite",
         addressId: "addr_3",
         orderType: "SUBSCRIPTION",
         frequency: "WEEKLY",
@@ -276,7 +276,7 @@ async function main() {
       data: {
         id: "order_7",
         customerId: "cust_4",
-        productId: "prod_veggie_medium",
+        productId: "prod_proball_premium",
         addressId: "addr_4",
         orderType: "ONE_TIME",
         amount: 179000,
@@ -287,7 +287,7 @@ async function main() {
       data: {
         id: "order_8",
         customerId: "cust_4",
-        productId: "prod_veggie_small",
+        productId: "prod_proball_basic",
         addressId: "addr_4",
         orderType: "SUBSCRIPTION",
         frequency: "WEEKLY",
@@ -433,31 +433,31 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "sarah@example.com",
-        subject: "Berkala — Order Confirmation #ORDER1",
+        subject: "ProBall Football — Order Confirmation #ORDER1",
         type: "ORDER_CONFIRMATION",
-        payload: JSON.stringify({ orderId: "order_1", product: "Veggie Box Small", amount: 99000 }),
+        payload: JSON.stringify({ orderId: "order_1", product: "Basic Plan", amount: 99000 }),
       },
     }),
     prisma.emailLog.create({
       data: {
         recipient: "sarah@example.com",
-        subject: "Berkala — Subscription Activated",
+        subject: "ProBall Football — Subscription Activated",
         type: "SUBSCRIPTION_CREATED",
-        payload: JSON.stringify({ subscriptionId: "sub_1", product: "Veggie Box Medium", frequency: "WEEKLY" }),
+        payload: JSON.stringify({ subscriptionId: "sub_1", product: "Premium Plan", frequency: "WEEKLY" }),
       },
     }),
     prisma.emailLog.create({
       data: {
         recipient: "budi@example.com",
-        subject: "Berkala — Order Confirmation #ORDER3",
+        subject: "ProBall Football — Order Confirmation #ORDER3",
         type: "ORDER_CONFIRMATION",
-        payload: JSON.stringify({ orderId: "order_3", product: "Veggie Box Family", amount: 299000 }),
+        payload: JSON.stringify({ orderId: "order_3", product: "Elite Plan", amount: 299000 }),
       },
     }),
     prisma.emailLog.create({
       data: {
         recipient: "rina@example.com",
-        subject: "Berkala — Payment Update Required",
+        subject: "ProBall Football — Payment Update Required",
         type: "PAYMENT_FAILED",
         payload: JSON.stringify({ orderId: "order_5", amount: 179000, message: "Payment method declined" }),
       },
@@ -465,7 +465,7 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "rina@example.com",
-        subject: "Berkala — Payment Reminder",
+        subject: "ProBall Football — Payment Reminder",
         type: "PAYMENT_REMINDER",
         payload: JSON.stringify({ orderId: "order_5", amount: 179000, retryCount: 1 }),
       },
@@ -473,9 +473,9 @@ async function main() {
     prisma.emailLog.create({
       data: {
         recipient: "andi@example.com",
-        subject: "Berkala — Subscription Activated",
+        subject: "ProBall Football — Subscription Activated",
         type: "SUBSCRIPTION_CREATED",
-        payload: JSON.stringify({ subscriptionId: "sub_4", product: "Veggie Box Small", frequency: "WEEKLY" }),
+        payload: JSON.stringify({ subscriptionId: "sub_4", product: "Basic Plan", frequency: "WEEKLY" }),
       },
     }),
   ]);
