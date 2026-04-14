@@ -92,7 +92,7 @@ export async function POST(request: Request) {
       customerEmail: customer.email,
       customerName: customer.name,
       customerPhone: customer.phone,
-      description: `Berkala - ${product.name}`,
+      description: `ProBall Football - ${product.name}`,
     });
 
     // Wrap all post-Xendit DB writes in a transaction

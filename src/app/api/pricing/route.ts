@@ -26,6 +26,7 @@ export async function PUT(request: Request) {
       active,
       product: {
         update: {
+          active,
           stock: stock !== undefined ? (stock === null ? null : parseInt(stock)) : undefined,
           lowStockThreshold: lowStockThreshold ? parseInt(lowStockThreshold) : undefined,
         }

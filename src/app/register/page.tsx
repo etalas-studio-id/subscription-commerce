@@ -1,11 +1,13 @@
 "use client";
 
+import Image from "next/image";
+
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useSearchParams, useRouter } from "next/navigation";
 import Link from "next/link";
 import { Suspense } from "react";
-import { Leaf, Loader2 } from "lucide-react";
+import {  Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -100,8 +102,8 @@ function RegisterForm() {
       <div className="w-full max-w-sm">
         {/* Logo */}
         <Link href="/" className="flex items-center justify-center gap-2 mb-8">
-          <Leaf className="h-7 w-7 text-[var(--primary)]" />
-          <span className="font-semibold text-lg">Berkala</span>
+          <Image src="/proball-logo.png" alt="ProBall Football" width={28} height={28} className="rounded" />
+          <span className="font-semibold text-lg">ProBall Football</span>
         </Link>
 
         <Card>
