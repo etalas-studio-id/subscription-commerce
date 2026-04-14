@@ -1,14 +1,22 @@
 # Changelog
 
-## [0.2.2.0] - 2026-04-13
+## [0.2.2.0] - 2026-04-14
 
 ### Added
-- **ProBall Football admin branding** — admin sidebar, login page, and dashboard now show the ProBall Football logo and name instead of Berkala/Leaf icon; active nav state uses blue instead of emerald
-- **Products page ProBall branding** — checkout header and product card placeholder updated to use ProBall Football logo with blue color palette
-- **Trust bar icon update** — homepage trust bar icons updated to Trophy, Users, GraduationCap, Shield to match ProBall Football content
+- **Admin product management** — admins can now create new products (name, description, base price, compare price, tags) and delete products directly from the Products admin page
+- **Delete guard** — attempting to delete a product with existing orders returns a 409 error with a clear message; products with no orders are hard-deleted cleanly
+- **POST/DELETE `/api/products`** — new endpoints for product creation (Prisma transaction: Product + PriceConfig) and deletion (order count check + cascading delete)
+
+### Changed
+- **Admin nav "Pricing" → "Products"** — renamed to reflect full product management scope; updated icon from DollarSign to Package
+- **ProBall Football branding** — replaced all remaining Berkala/Panen Baik copy, logos, and colors across homepage, admin, login, register, payment pages
+- **Homepage translations** — full EN/ID copy rewrite for ProBall Football Academy (hero, trust bar, features, footer)
+- **Customer products page** — dynamic bottom padding prevents sticky checkout bar from obscuring the last product card
+- **Google OAuth conditional** — provider only loaded when `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET` are set, preventing auth errors in environments without Google OAuth configured
 
 ### Fixed
-- **Admin pages API error handling** — emails, users, orders, frequencies, and pricing pages now gracefully handle API failures when `DATABASE_URL` is not configured, preventing runtime crashes
+- **`"use client"` directive ordering** — fixed in login, register, payment pages where Image import was accidentally prepended before the directive
+- **NextAuth `AUTH_SECRET`** — documented requirement; auth no longer throws on missing secret
 
 ## [0.2.1.1] - 2026-04-12
 

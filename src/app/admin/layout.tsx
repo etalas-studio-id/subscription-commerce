@@ -6,7 +6,7 @@ import { usePathname } from "next/navigation";
 import {
   LayoutDashboard,
   ShoppingCart,
-  DollarSign,
+  Package,
   RefreshCw,
   Mail,
   Users,
@@ -22,7 +22,7 @@ import { Button } from "@/components/ui/button";
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
-  { href: "/admin/pricing", label: "Pricing", icon: DollarSign },
+  { href: "/admin/pricing", label: "Products", icon: Package },
   { href: "/admin/frequencies", label: "Frequencies", icon: RefreshCw },
   { href: "/admin/users", label: "Users", icon: Users },
   { href: "/admin/emails", label: "Email Logs", icon: Mail },

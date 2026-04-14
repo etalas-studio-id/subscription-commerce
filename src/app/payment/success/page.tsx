@@ -1,7 +1,9 @@
 'use client';
 
+import Image from "next/image";
+
 import Link from "next/link";
-import { CheckCircle2, ArrowRight, Leaf, Package, RefreshCw, Phone } from "lucide-react";
+import { CheckCircle2, ArrowRight,  Package, RefreshCw, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useI18n } from "@/lib/i18n-context";
@@ -87,8 +89,8 @@ export default function PaymentSuccessPage() {
 
         {/* Logo footer */}
         <div className="flex items-center justify-center gap-2 mt-8 text-[var(--muted-foreground)]">
-          <Leaf className="h-4 w-4 text-[var(--primary)]" />
-          <span className="text-xs">Berkala</span>
+          <Image src="/proball-logo.png" alt="ProBall Football" width={16} height={16} className="rounded-sm" />
+          <span className="text-xs">ProBall Football</span>
         </div>
       </div>
     </div>

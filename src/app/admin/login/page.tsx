@@ -69,7 +69,7 @@ function AdminLoginForm() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Image src="/proball-logo.png" alt="ProBall Football" width={32} height={32} className="rounded" />
+            <Image src="/proball-logo.png" alt="ProBall Football" width={28} height={28} className="rounded" />
             <span className="font-bold text-xl">ProBall Football</span>
           </div>
           <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">Admin Login</h1>
@@ -132,7 +132,7 @@ function AdminLoginForm() {
         </Card>
 
         <p className="text-center text-xs text-[var(--muted-foreground)] mt-6">
-          © 2024 ProBall Football. Admin Panel.
+          © 2026 ProBall Football. Admin Panel.
         </p>
       </div>
     </div>
@@ -143,7 +143,7 @@ export default function AdminLoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-gradient-to-br from-[var(--color-blue-50)] via-white to-[var(--color-blue-100)] flex items-center justify-center">
+        <div className="min-h-screen bg-gradient-to-br from-[var(--color-emerald-50)] via-white to-[var(--color-emerald-100)] flex items-center justify-center">
           <Loader2 className="h-6 w-6 animate-spin text-[var(--primary)]" />
         </div>
       }
