@@ -61,39 +61,19 @@ function statusColor(status: string): string {
 export default function AdminDashboard() {
   const router = useRouter();
   const [data, setData] = useState<DashboardData | null>(null);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [username, setUsername] = useState('');
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Check authentication
-    const auth = localStorage.getItem("adminAuth");
-    const user = localStorage.getItem("adminUsername");
-
-    if (!auth || auth !== "true") {
-      router.push("/admin/login");
-      return;
-    }
-
-    setIsAuthenticated(true);
-    setUsername(user || "");
-
-    // Fetch dashboard data
     fetch("/api/dashboard")
       .then((r) => r.json())
       .then(setData)
       .finally(() => setLoading(false));
-  }, [router]);
+  }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem("adminAuth");
-    localStorage.removeItem("adminUsername");
-    router.push("/admin/login");
+  const handleLogout = async () => {
+    await fetch("/api/admin/logout", { method: "POST" });
+    window.location.href = "/admin/login";
   };
-
-  if (!isAuthenticated) {
-    return null;
-  }
 
   if (loading || !data) {
     return (
@@ -115,9 +95,6 @@ export default function AdminDashboard() {
             <h1 className="text-xl font-bold text-[var(--foreground)]">ProBall Football</h1>
           </div>
           <div className="flex items-center gap-4">
-            <div className="text-xs text-[var(--muted-foreground)]">
-              Logged in as <span className="font-medium text-[var(--foreground)]">{username}</span>
-            </div>
             <Button
               variant="outline"
               size="sm"

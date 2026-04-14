@@ -65,7 +65,7 @@ function AdminLoginForm() {
   if (redirecting) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[var(--color-emerald-50)] via-white to-[var(--color-emerald-100)] flex items-center justify-center p-5">
+    <div className="min-h-screen bg-gradient-to-br from-[var(--color-blue-50)] via-white to-[var(--color-blue-100)] flex items-center justify-center p-5">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
