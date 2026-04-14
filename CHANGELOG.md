@@ -2,9 +2,8 @@
 
 ## [0.2.1.2] - 2026-04-14
 
-### Changed
-- **Payment copy** — Order Type labels now explicitly state "One-time Payment" and "Subscription Payment" (EN) / "Pembayaran Sekali" and "Pembayaran Berlangganan" (ID), with descriptions focused on payment nature rather than delivery.
-- **Subscription frequency** — When One-Time is enabled in the admin dashboard, it no longer appears in the subscription frequency grid — only in the first Order Type selection where it belongs.
+### Fixed
+- **Inactive products now hidden from customer flow** — toggling a product off in the admin pricing dashboard now correctly hides it from the customer-facing product list, homepage, and checkout. Previously, the "Active" toggle only updated `PriceConfig.active` but the customer API filtered on `Product.active`, so deactivated products remained visible.
 
 ## [0.2.1.1] - 2026-04-12
 
