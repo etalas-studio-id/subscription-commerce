@@ -1,7 +1,7 @@
 'use client';
 
 import Link from "next/link";
-import { Leaf } from "lucide-react";
+import Image from "next/image";
 import { useI18n } from "@/lib/i18n-context";
 
 export function Footer() {
@@ -12,8 +12,8 @@ export function Footer() {
       <div className="max-w-6xl mx-auto px-5 py-10">
         <div className="flex flex-col md:flex-row justify-between items-center gap-4">
           <div className="flex items-center gap-2">
-            <Leaf className="h-5 w-5 text-[var(--primary)]" />
-            <span className="font-semibold text-sm">Berkala</span>
+            <Image src="/proball-logo.png" alt="ProBall Football" width={20} height={20} className="rounded-sm" />
+            <span className="font-semibold text-sm">ProBall Football</span>
           </div>
           <div className="flex items-center gap-6 text-xs text-[var(--muted-foreground)]">
             <Link href="/products" className="hover:text-[var(--foreground)] transition-colors">

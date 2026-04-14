@@ -39,9 +39,10 @@ export default function FrequenciesPage() {
     fetch("/api/frequencies")
       .then((r) => r.json())
       .then((data) => {
-        setSettings(data);
+        setSettings(Array.isArray(data) ? data : []);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   const updateEdit = (id: string, field: string, value: string | number | boolean) => {

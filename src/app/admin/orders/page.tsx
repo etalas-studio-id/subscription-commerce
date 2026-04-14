@@ -59,9 +59,10 @@ export default function OrdersPage() {
     fetch("/api/orders")
       .then((r) => r.json())
       .then((data) => {
-        setOrders(data);
+        setOrders(Array.isArray(data) ? data : []);
         setLoading(false);
-      });
+      })
+      .catch(() => setLoading(false));
   }, []);
 
   const filtered = orders.filter((order) => {

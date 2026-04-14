@@ -8,7 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent } from '@/components/ui/card';
 
-export default function AdminLoginPage() {
+function AdminLoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const isExpired = searchParams.get("expired") === "1";
@@ -48,9 +48,6 @@ export default function AdminLoginPage() {
       });
 
       if (res.ok) {
-        // JWT is set in httpOnly cookie by the API
-        localStorage.setItem("adminAuth", "true");
-        localStorage.setItem("adminUsername", username);
         router.push('/admin');
       } else {
         setError('Invalid username or password');
@@ -67,13 +64,12 @@ export default function AdminLoginPage() {
   if (redirecting) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[var(--color-emerald-50)] via-white to-[var(--color-emerald-100)] flex items-center justify-center p-5">
+    <div className="min-h-screen bg-gradient-to-br from-[var(--color-blue-50)] via-white to-[var(--color-blue-100)] flex items-center justify-center p-5">
       <div className="w-full max-w-md">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center gap-2 mb-4">
-            <Leaf className="h-6 w-6 text-[var(--primary)]" />
-            <span className="font-bold text-xl">Berkala</span>
+            <Image src="/proball-logo.png" alt="ProBall Football" width={28} height={28} className="rounded" />
+            <span className="font-bold text-xl">ProBall Football</span>
           </div>
           <h1 className="text-2xl font-bold text-[var(--foreground)] mb-2">Admin Login</h1>
           <p className="text-sm text-[var(--muted-foreground)]">
@@ -81,11 +77,9 @@ export default function AdminLoginPage() {
           </p>
         </div>
 
-        {/* Login Card */}
         <Card className="border-[var(--border)]">
           <CardContent className="p-6">
             <form onSubmit={handleSubmit} className="space-y-4">
-              {/* Error message */}
               {error && (
                 <div className="flex items-start gap-3 p-3 rounded-lg bg-red-50 border border-red-200">
                   <AlertCircle className="h-4 w-4 text-red-600 shrink-0 mt-0.5" />
@@ -93,7 +87,6 @@ export default function AdminLoginPage() {
                 </div>
               )}
 
-              {/* Username field */}
               <div>
                 <Label htmlFor="username" className="text-xs font-medium mb-1.5 block">
                   Username
@@ -110,7 +103,6 @@ export default function AdminLoginPage() {
                 />
               </div>
 
-              {/* Password field */}
               <div>
                 <Label htmlFor="password" className="text-xs font-medium mb-1.5 block">
                   Password
@@ -126,7 +118,6 @@ export default function AdminLoginPage() {
                 />
               </div>
 
-              {/* Submit button */}
               <Button
                 type="submit"
                 disabled={loading || !username || !password}
@@ -139,11 +130,24 @@ export default function AdminLoginPage() {
           </CardContent>
         </Card>
 
-        {/* Footer */}
         <p className="text-center text-xs text-[var(--muted-foreground)] mt-6">
-          © 2024 Berkala. Admin Panel.
+          © 2026 ProBall Football. Admin Panel.
         </p>
       </div>
     </div>
+  );
+}
+
+export default function AdminLoginPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gradient-to-br from-[var(--color-emerald-50)] via-white to-[var(--color-emerald-100)] flex items-center justify-center">
+          <Loader2 className="h-6 w-6 animate-spin text-[var(--primary)]" />
+        </div>
+      }
+    >
+      <AdminLoginForm />
+    </Suspense>
   );
 }
