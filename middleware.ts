@@ -31,7 +31,13 @@ export async function middleware(request: NextRequest) {
 
   // Account routes — NextAuth session check
   if (pathname.startsWith("/account")) {
-    const token = await getToken({ req: request });
+    const token = await getToken({
+      req: request,
+      cookieName:
+        process.env.NODE_ENV === "production"
+          ? "__Secure-authjs.session-token"
+          : "authjs.session-token",
+    });
 
     if (!token) {
       const loginUrl = new URL("/login", request.url);
