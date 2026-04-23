@@ -1,6 +1,7 @@
 'use client';
 
 import Link from "next/link";
+import Image from "next/image";
 import {
   ArrowRight,
   Play,
@@ -16,7 +17,7 @@ import {
 } from "lucide-react";
 
 // ─── Palette (dark navy + green accent) ──────────────────────────────────────
-// Dark bg:   #080E1D  (matches --color-blue-900)
+// Dark bg:   #0d1d3a  (true navy blue)
 // Green:     #22C55E
 // Green dk:  #16A34A
 // White bg:  #FFFFFF
@@ -31,11 +32,18 @@ function LandingNav() {
   return (
     <nav
       className="sticky top-0 z-50 backdrop-blur-md border-b border-white/10"
-      style={{ background: "rgba(8,14,29,0.92)" }}
+      style={{ background: "#0d1d3a" }}
     >
       <div className="max-w-6xl mx-auto px-5 h-14 flex items-center justify-between">
-        <Link href="/" className="font-bold text-white text-base tracking-tight">
-          Berkala
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/images/berkala-dark-logo.svg"
+            alt="Berkala"
+            width={24}
+            height={24}
+            className="h-6 w-auto"
+          />
+          <span className="font-bold text-white text-base tracking-tight">Berkala</span>
         </Link>
         <div className="hidden md:flex items-center gap-7">
           <a href="#fitur"     className="text-sm text-white/60 hover:text-white transition-colors">Fitur</a>
@@ -56,7 +64,7 @@ function LandingNav() {
 
 function HeroSection() {
   return (
-    <section className="bg-[#080E1D]">
+    <section className="bg-[#0d1d3a]">
       {/* Main content */}
       <div className="max-w-6xl mx-auto px-5 pt-16 pb-16 text-center">
         {/* Live badge */}
@@ -158,7 +166,7 @@ function PainPointsSection() {
         </div>
         <div className="grid md:grid-cols-3 gap-5">
           {PAIN_POINTS.map(({ Icon, title, question, desc }) => (
-            <div key={title} className="bg-[#080E1D] rounded-2xl p-7">
+            <div key={title} className="bg-[#0d1d3a] rounded-2xl p-7">
               <div className="inline-flex items-center justify-center w-10 h-10 rounded-xl mb-5" style={{ background: "rgba(34,197,94,0.15)" }}>
                 <Icon className="h-5 w-5 text-[#22C55E]" />
               </div>
@@ -280,9 +288,14 @@ function XenditSection() {
           {/* Right — Xendit card */}
           <div className="flex-1 flex justify-center lg:justify-end w-full">
             <div className="bg-white rounded-2xl border border-[#E2E8F0] shadow-lg p-10 flex flex-col items-center gap-5 w-full max-w-sm">
-              {/* Xendit logo placeholder — white bg keeps it clean */}
-              <div className="w-20 h-20 bg-white border border-[#E2E8F0] rounded-2xl flex items-center justify-center shadow-sm">
-                <span className="font-black text-3xl text-[#003049]">X</span>
+              <div className="w-32 h-14 flex items-center justify-center">
+                <Image
+                  src="/images/xendit-logo.svg"
+                  alt="Xendit"
+                  width={128}
+                  height={56}
+                  className="object-contain"
+                />
               </div>
               <div className="text-center">
                 <div className="font-bold text-lg text-[#0F172A]">Xendit</div>
@@ -312,7 +325,7 @@ function XenditSection() {
 
 function CtaSection() {
   return (
-    <section id="daftar" className="bg-[#080E1D] py-24">
+    <section id="daftar" className="bg-[#0d1d3a] py-24">
       <div className="max-w-6xl mx-auto px-5 flex justify-center">
         <div
           className="rounded-3xl p-10 md:p-14 text-center w-full max-w-xl border border-white/10"
@@ -346,7 +359,7 @@ function CtaSection() {
 
 function LandingFooter() {
   return (
-    <footer className="bg-[#080E1D] border-t border-white/10">
+    <footer className="bg-[#0d1d3a] border-t border-white/10">
       <div className="max-w-6xl mx-auto px-5 pt-12 pb-8">
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10 mb-10">
